@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DineEase helps restaurants and cafes display menus, prices, and table reservations.">
+
+    <title > DineEase - Add User</title>
+      <link rel="stylesheet" href="../style.css">
+      <link rel="stylesheet" href="userprofile.css">  
+      <link rel="stylesheet" href="form.css"> 
+</head>
+
+<body>
+  <header>
+        <nav class="navbar">
+            <h1 class="logo">DineEase</h1>
+
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#pricing">Pricing</a></li>
+                <li><a href="../plans.html">Plans</a></li>
+                <li><a href="../support.html">Support</a></li>
+                <li><a href="Profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<h1>Log in Page</h1>
+
+<form class="user-form" action="#" method="post">
+
+<fieldset>
+        <legend>Personal details</legend>
+
+        <div class="form-grid">
+        <div class="field">
+            <label for="fullname">Full name</label>
+            <input type="text" id="fullname" name="fullname" placeholder="e.g. Ahmed Ali"
+                    required minlength="3" maxlength="50">
+        </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="name@example.com" required>
+            </div>
+
+            <div class="field">
+                <label for="phone">Phone number</label>
+                <input type="tel" id="phone" name="phone" placeholder="05XXXXXXXX"
+                    pattern="05[0-9]{8}" title="Enter 10 digits starting with 05" required>
+            </div>
+
+            <div class="field">
+                <label for="dob">Date of birth</label>
+                <input type="date" id="dob" name="dob" min="1950-01-01" max="2008-12-31" required>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" minlength="8"
+                    pattern="(?=.*[0-9])(?=.*[A-Za-z]).{8,}"
+                    title="At least 8 characters, including letters and numbers" required>
+            </div>
+
+            <div class="field">
+                <label for="photo">Profile photo (optional)</label>
+                <input type="file" id="photo" name="photo" accept="image/*">
+            </div>
+        </div>
+        <div class="button-row">
+                <button type="submit" class="button">Add User</button>
+                <button type="reset" class="button button-outline">Reset</button>
+            </div>
+    <a href="add-user.html" class="add-user-button">Don't have an account? Sign up</a>
+
+    </fieldset>
+   
+            
+</form>
+
+
+<footer>
+        <p>DineEase - Making Dining Easier.</p>
+        <a href="support.html">Contact Support</a>
+        <p>&copy; 2026 DineEase. All rights reserved.</p>
+    </footer>
+</body>
