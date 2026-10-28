@@ -4,51 +4,78 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="DineEase helps restaurants and cafes display menus, prices, and table reservations.">
-
-    <title > DineEase - Profile</title>
+ 
+    <title>DineEase - Profile</title>
       <link rel="stylesheet" href="../style.css">
-      <link rel="stylesheet" href="userprofile.css">  
-      <link rel="stylesheet" href="form.css"> 
+      <link rel="stylesheet" href="userprofile.css">
+      
 </head>
 <body>
-
+ 
    <header>
         <nav class="navbar">
             <h1 class="logo">DineEase</h1>
-
+ 
             <ul class="nav-links">
                <li><a href="../index.html">Home</a></li>
                <li><a href="../index.html#features">Features</a></li>
                <li><a href="../index.html#pricing">Pricing</a></li>
                <li><a href="../plans.html">Plans</a></li>
                <li><a href="../support.html">Support</a></li>
-               <li><a href="Profile.html">Profile</a></li>
+               <li><a href="Profile.html" class="active">Profile</a></li>
             </ul>
         </nav>
     </header>
-
-
-<h1>Profile Page</h1>
-
-
-<form>
-<label for="username">Name:</label>
-<input type="text" id="name" name="name">
-<br> <br/>
-
-
-<label for="password">Password:</label>
-<input type="password" id="password" name="password">
-<br> <br/>
-
-<a href="add-user.html" class="add-user-button">Don't have an account? Sign up</a>
-
-</form>
-
-
+ 
+<section class="page-header">
+    <p class="subtitle">MY ACCOUNT</p>
+    <h2>Profile Page</h2>
+    <p>Manage your restaurant details, plan and recent activity.</p>
+</section>
+ 
+<section class="dashboard">
+    <h2>Welcome back, Ahmed Ali</h2>
+ 
+    <div class="dashboard-grid">
+        <article class="dash-card">
+            <h3>Account details</h3>
+            <p><strong>Email:</strong> ahmed@example.com</p>
+            <p><strong>Phone:</strong> 0501234567</p>
+            <p><strong>Restaurant:</strong> Al Noor Cafe</p>
+        </article>
+ 
+        <article class="dash-card">
+            <h3>Current plan</h3>
+            <p><strong>Professional</strong> - SAR 99 / month</p>
+            <p>Renews on 1 November 2026</p>
+            <a href="../plans.html#professional">View plan details</a>
+        </article>
+ 
+        <article class="dash-card">
+            <h3>This month</h3>
+            <p><strong>42</strong> reservations</p>
+            <p><strong>128</strong> menu items</p>
+        </article>
+    </div>
+ 
+    <h3>Recent reservations</h3>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Guest</th><th>Date</th><th>Guests</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Sara Khalid</td><td>27 Oct 2026</td><td>4</td><td>Confirmed</td></tr>
+                <tr><td>Omar Hassan</td><td>28 Oct 2026</td><td>2</td><td>Confirmed</td></tr>
+                <tr><td>Lina Yousef</td><td>29 Oct 2026</td><td>6</td><td>Pending</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<button type="button" class="button" onclick="window.location.href='login.html'">Log Out</button>
 <footer>
         <p>DineEase - Making Dining Easier.</p>
-        <a href="support.html">Contact Support</a>
+        <a href="../support.html">Contact Support</a>
         <p>&copy; 2026 DineEase. All rights reserved.</p>
     </footer>
 </body>
