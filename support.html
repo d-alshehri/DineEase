@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Contact DineEase for feedback and support.">
+
+    <title>DineEase - Feedback & Support</title>
+
+    <link rel="stylesheet" href="css/support.css">
+    <script src="js/search.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar">
+            <h1 class="logo">DineEase</h1>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="plans.html">Plans</a></li>
+                <li><a href="support.html" class="active">Support</a></li>
+                <li><a href="user-profile/login.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- Feedback and Support Section -->
+        <section class="support-section">
+
+            <h2>Feedback & Support</h2>
+
+            <p class="section-description">
+                We are here to help you! Send us your questions,
+                suggestions, or feedback.
+            </p>
+
+            <form id="feedbackForm">
+
+                <label for="name">Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name"
+                    required
+                    minlength="2"
+                >
+
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <label for="subject">Subject</label>
+                <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    placeholder="Enter the subject"
+                    required
+                >
+
+                <label for="message">Message</label>
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    placeholder="Write your message here..."
+                    required
+                    minlength="10"
+                ></textarea>
+
+                <button type="submit">Send Message</button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Search Plans Section -->
+        <section class="search-section">
+
+            <h2>Search Plans</h2>
+
+            <p class="section-description">
+                Search for available DineEase subscription plans.
+            </p>
+
+            <form id="searchForm">
+
+                <label for="searchInput">Plan Name</label>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    name="search"
+                    placeholder="Enter plan name..."
+                    required
+                >
+
+                <button type="submit">Search</button>
+
+            </form>
+
+            <!-- Search Results -->
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plan Name</th>
+                            <th>Price</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="results" aria-live="polite">
+                        <tr>
+                            <td colspan="3">
+                                Search for a plan to see results.
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>DineEase - Making Dining Easier.</p>
+        <p>
+            <a href="index.html">Home</a> |
+            <a href="support.html">Contact Support</a>
+        </p>
+        <p>&copy; 2026 DineEase. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
