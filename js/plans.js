@@ -1,6 +1,6 @@
 'use strict';
 // Student 2: Plan Details + Add Plan. Data is stored locally in this browser.
-const STORAGE_KEY = 'menew-plans-v1';
+const STORAGE_KEY = 'dineease-plans-v1';
 const starterPlans = [
   { id: 'starter', name: 'Starter', price: 0, category: 'Starter', startDate: '2026-01-01', duration: 'Monthly', menuLimit: 25, description: 'A simple digital menu for small cafés getting started.', reservations: false },
   { id: 'growth', name: 'Growth', price: 49, category: 'Growth', startDate: '2026-01-01', duration: 'Monthly', menuLimit: 100, description: 'More flexibility for growing restaurants and cafés.', reservations: true },

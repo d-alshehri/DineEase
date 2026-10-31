@@ -1,4 +1,4 @@
-MENEW - (Plan Details + Add New Plan)
+DineEase - (Plan Details + Add New Plan)
 
 FILES
 - plan-details.html: subscription plan cards
