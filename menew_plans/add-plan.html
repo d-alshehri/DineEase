@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Plan | Menew</title>
+  <link rel="stylesheet" href="plans.css">
+  <script src="plans.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="brand" href="index.html">Menew<span class="brand-dot">.</span></a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="plan-details.html">Plan Details</a>
+        <a href="add-plan.html" aria-current="page">Add Plan</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container narrow">
+    <section class="page-intro" aria-labelledby="page-title">
+      <p class="eyebrow">PLAN MANAGEMENT</p>
+      <h1 id="page-title">Create a new plan.</h1>
+      <p class="lead">Set up a subscription package for restaurants and cafés using Menew.</p>
+    </section>
+
+    <section class="form-card" aria-labelledby="form-title">
+      <h2 id="form-title">Plan information</h2>
+      <p class="muted">Fields marked * are required.</p>
+      <form id="add-plan-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="plan-name">Plan name *</label>
+            <input id="plan-name" name="name" type="text" minlength="3" maxlength="50" placeholder="e.g. Restaurant Pro" required>
+          </div>
+          <div class="field">
+            <label for="plan-price">Monthly price (SAR) *</label>
+            <input id="plan-price" name="price" type="number" min="0" max="100000" step="0.01" placeholder="e.g. 99" required>
+          </div>
+          <div class="field">
+            <label for="plan-category">Plan category *</label>
+            <select id="plan-category" name="category" required>
+              <option value="" selected disabled>Select a category</option>
+              <option value="Starter">Starter</option>
+              <option value="Growth">Growth</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="plan-start">Available from *</label>
+            <input id="plan-start" name="startDate" type="date" required>
+          </div>
+          <div class="field">
+            <label for="plan-duration">Billing cycle *</label>
+            <select id="plan-duration" name="duration" required>
+              <option value="" selected disabled>Select a cycle</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Yearly">Yearly</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="plan-limit">Menu item limit *</label>
+            <input id="plan-limit" name="menuLimit" type="number" min="1" max="100000" step="1" placeholder="e.g. 100" required>
+          </div>
+          <div class="field full">
+            <label for="plan-description">Plan description *</label>
+            <textarea id="plan-description" name="description" rows="4" minlength="10" maxlength="300" placeholder="Describe what this plan includes..." required></textarea>
+          </div>
+          <div class="field full">
+            <label class="checkbox-label"><input id="plan-reservations" name="reservations" type="checkbox"> Include online table reservations</label>
+          </div>
+        </div>
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+        <div class="form-actions">
+          <a class="button button-secondary" href="plan-details.html">Cancel</a>
+          <button type="submit" class="button button-primary">Save Plan</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container">&copy; <span id="year"></span> Menew. Made for restaurants and cafés.</div></footer>
+</body>
+</html>
