@@ -1,4 +1,4 @@
-MENEW - STUDENT 2 (Plan Details + Add New Plan)
+MENEW - (Plan Details + Add New Plan)
 
 FILES
 - plan-details.html: subscription plan cards
