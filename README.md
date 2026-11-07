@@ -131,8 +131,8 @@ The DineEase project is developed collaboratively by the following four students
 | Student | Name | Responsibilities |
 |---|---|---|
 | Student 1 | Danah Alshehri | Home Page and Navigation |
-| Student 2 | Jawaher Alborethen | Plan Details and Add Plan Form |
-| Student 3 | Nadine Kumkumji | User Profile and Add User Form |
+| Student 2 | Jawaher Alborethen | User Profile and Add User Form |
+| Student 3 | Nadine Kumkumji |  Plan Details and Add Plan Form |
 | Student 4 | Najlaa Alarfaj | Feedback & Support and Plan Search |
 
 All team members contribute to project integration, testing, and maintaining consistency across the website.
