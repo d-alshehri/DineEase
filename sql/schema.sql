@@ -41,13 +41,3 @@ INSERT IGNORE INTO plans (name, price, category, start_date, duration, menu_limi
  ('Starter', 0,  'Starter', '2026-01-01', 'Monthly', 25,  'A simple digital menu for small cafes getting started.', 0),
  ('Growth',  49, 'Growth',  '2026-01-01', 'Monthly', 100, 'More flexibility for growing restaurants and cafes.',   1),
  ('Premium', 99, 'Premium', '2026-01-01', 'Monthly', 500, 'An expanded menu and online bookings for busy venues.', 1);
-
--- Messages from the Feedback & Support page
-CREATE TABLE IF NOT EXISTS Feedback (
-  id         INT AUTO_INCREMENT PRIMARY KEY,
-  name       VARCHAR(100) NOT NULL,
-  email      VARCHAR(255) NOT NULL,
-  subject    VARCHAR(200) NOT NULL,
-  message    TEXT         NOT NULL,
-  created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB;

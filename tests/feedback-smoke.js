@@ -1,5 +1,5 @@
 // Run from DineEase root: node tests/feedback-smoke.js
-// Requires the server running on localhost:3000 and the Feedback table created by sql/schema.sql.
+// Requires the server running on localhost:3000 and the Feedback table created by sql/feedback.sql.
 const base = process.env.API_BASE || 'http://localhost:3000/api/feedback';
 (async () => {
   const email = `test${Date.now()}@example.com`;
