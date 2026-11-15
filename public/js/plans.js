@@ -78,7 +78,7 @@ function initializeForm() {
     form.reset();
     status.className = 'form-message';
     status.textContent = 'Plan saved! Opening Plan Details…';
-    window.location.assign('plan-details.html');
+    window.location.assign('/plans');
   });
 }
 document.addEventListener('DOMContentLoaded', () => {

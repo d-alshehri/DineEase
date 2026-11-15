@@ -1,0 +1,18 @@
+<%# Shown by the error-handling middleware in server.js when a page route fails (status 500) %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+    <%- include("./partials/nav.ejs") %>
+
+    <main class="not-found">
+        <h2>Something went wrong</h2>
+        <p>Sorry, there was a problem on our server. Please try again later.</p>
+        <a href="/" class="button">Back to Home</a>
+    </main>
+
+    <%- include("./partials/footer.ejs") %>
+</body>
+
+</html>

@@ -5,22 +5,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plan Details | DineEase</title>
-  <link rel="stylesheet" href="../css/plans.css">
-  <script src="../js/plans.js" defer></script>
+  <link rel="stylesheet" href="/css/plans.css">
+  <script src="/js/plans.js" defer></script>
 </head>
 
 <body>
   <header class="site-header">
     <nav class="nav container" aria-label="Main navigation">
-      <a class="brand" href="../index.html">DineEase<span class="brand-dot">.</span></a>
+      <a class="brand" href="/">DineEase<span class="brand-dot">.</span></a>
       <div class="nav-links">
-        <<li><a href="../index.html">Home</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="plans/plan-details.html">Plans</a></li>
-          <li><a href="support.html">Support</a></li>
-          <li><a href="user-profile/login.html">Profile</a></li>
-          <li><a href="add-plan.html">Add Plan</a></li>
+        <a href="/">Home</a>
+        <a href="/#features">Features</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="/plans" aria-current="page">Plans</a>
+        <a href="/plans/add">Add Plan</a>
+        <a href="/support">Support</a>
+        <a href="/login">Profile</a>
       </div>
     </nav>
   </header>
@@ -36,7 +36,7 @@
     <section aria-labelledby="plans-title">
       <div class="section-heading">
         <h2 id="plans-title">Available plans</h2>
-        <a class="button button-primary" href="add-plan.html">+ Add New Plan</a>
+        <a class="button button-primary" href="/plans/add">+ Add New Plan</a>
       </div>
       <div class="plan-grid" id="plan-list" aria-live="polite"></div>
       <p id="plan-empty" class="empty-state" hidden>No plans yet. Add your first plan to get started.</p>

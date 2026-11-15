@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (res.ok) {
         msg.style.color = 'green';
         msg.textContent = 'Account created! Redirecting...';
-        window.location.assign('Profile.html?id=' + data.id);
+        window.location.assign('/profile?id=' + data.id); // open the new user's profile page
       } else {
         msg.style.color = 'crimson';
         msg.textContent = (data.errors || [data.error]).join(' | ');

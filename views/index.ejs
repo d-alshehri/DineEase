@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+
+    <%- include("./partials/nav.ejs") %>
+
+    <main>
+
+        <section class="hero">
+            <p class="subtitle">RESTAURANT AND CAFE MANAGEMENT</p>
+
+            <h2>Great Food. Easy Reservations.</h2>
+
+            <p>
+                DineEase helps restaurants and cafes display their menus,
+                share prices, and allow customers to reserve tables in advance.
+            </p>
+
+            <a class="button" href="#features">Explore Features</a>
+            <a class="button button-light" href="#pricing">View Pricing</a>
+        </section>
+
+        <section class="features" id="features">
+            <h2>Our Features</h2>
+
+            <p class="section-intro">
+                Everything you need to make your restaurant easier to manage.
+            </p>
+
+            <div class="feature-list">
+
+                <article class="feature-card">
+                    <h3>Digital Menu</h3>
+                    <p>
+                        Display your food and drinks with descriptions
+                        and prices in one convenient place.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Table Reservations</h3>
+                    <p>
+                        Allow customers to reserve tables in advance
+                        and plan their visits more easily.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Easy Menu Updates</h3>
+                    <p>
+                        Make it easier for restaurant owners to keep
+                        menu items and prices updated.
+                    </p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="pricing" id="pricing">
+            <h2>Our Pricing Plans</h2>
+
+            <p class="section-intro">
+                Choose a plan that suits your restaurant or cafe.
+            </p>
+
+            <%# "plans" comes from the database (see the GET / route in routes/pages.js) %>
+            <% if (plans.length === 0) { %>
+                <p>There are no plans to display right now.</p>
+            <% } else { %>
+                <div class="pricing-list">
+
+                    <% plans.forEach((plan) => { %>
+                        <article class="price-card">
+                            <%# The "equals" tag escapes the text, so HTML typed into a plan name cannot run as code %>
+                            <h3><%= plan.name %></h3>
+                            <%# MySQL sends DECIMAL as text like "49.00". Number() turns it into 49 %>
+                            <p class="price">
+                                SAR <%= Number(plan.price) %> / <%= plan.duration === 'Yearly' ? 'year' : 'month' %>
+                            </p>
+                            <p><%= plan.description %></p>
+                            <ul>
+                                <li>Up to <%= plan.menu_limit %> menu items</li>
+                                <li><%= plan.reservations ? 'Table reservations included' : 'Table reservations not included' %></li>
+                            </ul>
+                            <a href="/plans" class="button">View Plan</a>
+                        </article>
+                    <% }) %>
+
+                </div>
+            <% } %>
+        </section>
+
+    </main>
+
+    <%- include("./partials/footer.ejs") %>
+
+</body>
+</html>

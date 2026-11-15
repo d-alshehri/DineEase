@@ -1,34 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="DineEase helps restaurants and cafes display menus, prices, and table reservations.">
-
-    <title>DineEase - Profile</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/Userprofile.css">
-
-</head>
+<%- include("../partials/head.ejs") %>
 
 <body>
 
-    <header>
-        <nav class="navbar">
-            <h1 class="logo">DineEase</h1>
-
-            <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../index.html#features">Features</a></li>
-                <li><a href="../index.html#pricing">Pricing</a></li>
-                <li><a href="../plans/plan-details.html">Plans</a></li>
-                <li><a href="../support.html">Support</a></li>
-                <li><a href="Profile.html" class="active">Profile</a></li>
-            </ul>
-        </nav>
-    </header>
+    <%- include("../partials/nav.ejs") %>
 
     <section class="page-header">
         <p class="subtitle">MY ACCOUNT</p>
@@ -36,24 +12,30 @@
         <p>Manage your restaurant details, plan and recent activity.</p>
     </section>
 
+    <%# "user" comes from the database (see the GET /profile route in routes/pages.js) %>
     <section class="dashboard">
-        <h2>Welcome back, Ahmed Ali</h2>
+        <h2>Welcome back, <%= user.full_name %></h2>
 
         <div class="dashboard-grid">
             <article class="dash-card">
                 <h3>Account details</h3>
-                <p><strong>Email:</strong> ahmed@example.com</p>
-                <p><strong>Phone:</strong> 0501234567</p>
-                <p><strong>Restaurant:</strong> Al Noor Cafe</p>
+                <p><strong>Email:</strong> <%= user.email %></p>
+                <p><strong>Phone:</strong> <%= user.phone %></p>
+                <p><strong>Restaurant:</strong> <%= user.restaurant_name || 'Not added yet' %></p>
             </article>
 
             <article class="dash-card">
                 <h3>Current plan</h3>
-                <p><strong>Professional</strong> - SAR 99 / month</p>
-                <p>Renews on 1 November 2026</p>
-                <a href="../plans/plan-details.html">View plan details</a>
+                <% if (user.plan_name) { %>
+                    <p><strong><%= user.plan_name %></strong> - SAR <%= Number(user.plan_price) %> / <%= user.plan_duration === 'Yearly' ? 'year' : 'month' %></p>
+                <% } else { %>
+                    <p>No plan selected yet</p>
+                <% } %>
+                <a href="/plans">View plan details</a>
             </article>
 
+            <%# SAMPLE DATA: the "This month" card and the reservations table below are
+                not in the database yet, so they are still the Phase 1 example values. %>
             <article class="dash-card">
                 <h3>This month</h3>
                 <p><strong>42</strong> reservations</p>
@@ -95,10 +77,8 @@
             </table>
         </div>
     </section>
-    <button type="button" class="button" onclick="window.location.href='login.html'">Log Out</button>
-    <footer>
-        <p>DineEase - Making Dining Easier.</p>
-        <a href="../support.html">Contact Support</a>
-        <p>&copy; 2026 DineEase. All rights reserved.</p>
-    </footer>
+    <button type="button" class="button" onclick="window.location.href='/login'">Log Out</button>
+    <%- include("../partials/footer.ejs") %>
 </body>
+
+</html>

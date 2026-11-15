@@ -59,9 +59,15 @@ a {
     color: var(--text-color);
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
     color: var(--primary-color);
     text-decoration: underline;
+}
+
+/* The logo is a link to the home page (views/partials/nav.ejs) */
+a.logo {
+    font-weight: bold;
 }
 
 /* Home section */
@@ -170,6 +176,18 @@ a {
 
 .price-note {
     font-size: 14px;
+}
+
+/* 404 and error pages (views/404.ejs, views/error.ejs) */
+
+.not-found {
+    text-align: center;
+    padding: 80px 7%;
+}
+
+.not-found h2 {
+    font-size: 32px;
+    color: var(--primary-color);
 }
 
 /* Footer */
