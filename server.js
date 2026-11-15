@@ -14,7 +14,7 @@ app.get('/support.html', (req, res) => res.sendFile(path.join(__dirname, 'suppor
 // ---- API ----
 app.use('/api/plans', require('./routes/plans'));
 app.use('/api/profiles', require('./routes/profiles'));
-// (teammate: app.use('/api/feedback', require('./routes/feedback'));)
+app.use('/api/feedback', require('./routes/feedback'));
 
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
 
