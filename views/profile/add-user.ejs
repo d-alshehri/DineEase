@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+<body>
+    <%- include("../partials/nav.ejs") %>
+
+    <main class="container narrow">
+        <section class="page-intro" aria-labelledby="page-title">
+            <p class="eyebrow">MY ACCOUNT</p>
+            <h1 id="page-title">Create your account.</h1>
+            <p class="lead">Sign up to manage your restaurant's menu, plan and table reservations with DineEase.</p>
+        </section>
+
+        <section class="form-card" aria-labelledby="form-title">
+            <h2 id="form-title">Personal details</h2>
+            <p class="muted">Fields marked * are required.</p>
+
+            <%# No "action": public/js/add-user.js sends the form to /api/profiles with fetch() %>
+            <form id="add-user-form">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="fullname">Full name *</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="e.g. Ahmed Ali" required minlength="3"
+                            maxlength="50">
+                    </div>
+
+                    <div class="field">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="phone">Phone number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="05XXXXXXXX" pattern="05[0-9]{8}"
+                            title="Enter 10 digits starting with 05" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="dob">Date of birth *</label>
+                        <input type="date" id="dob" name="dob" min="1950-01-01" max="2008-12-31" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" name="password" minlength="8"
+                            pattern="(?=.*[0-9])(?=.*[A-Za-z]).{8,}"
+                            title="At least 8 characters, including letters and numbers" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="photo">Profile photo (optional)</label>
+                        <input type="file" id="photo" name="photo" accept="image/*">
+                    </div>
+                </div>
+
+                <%# add-user.js writes success / error messages here %>
+                <p id="form-message" class="form-message" role="alert"></p>
+
+                <div class="form-actions">
+                    <button type="reset" class="button button-secondary">Reset</button>
+                    <button type="submit" class="button button-primary">Add User</button>
+                </div>
+            </form>
+
+            <p class="form-switch">Already have an account? <a href="/login">Log in</a></p>
+        </section>
+    </main>
+
+    <%- include("../partials/footer.ejs") %>
+
+    <script src="/js/add-user.js"></script>
+</body>
+
+</html>
