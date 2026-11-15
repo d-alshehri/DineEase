@@ -6,7 +6,7 @@
 
     <%- include("../partials/nav.ejs") %>
 
-    <%# "user" comes from the database (see the GET /profile route in routes/pages.js) %>
+    <%# user: from user_profiles + plans (GET /profile in routes/pages.js) %>
     <main class="container">
         <section class="page-intro" aria-labelledby="page-title">
             <p class="eyebrow">MY ACCOUNT</p>
@@ -37,13 +37,12 @@
                         <p>No plan selected yet</p>
                     <% } %>
                     <div class="card-footer">
-                        <%# plan_id is empty when the user has no plan: then show all plans %>
+                        <%# no plan: link to all plans instead %>
                         <a href="<%= user.plan_id ? '/plans/' + user.plan_id : '/plans' %>">View plan details</a>
                     </div>
                 </article>
 
-                <%# SAMPLE DATA: the "This month" card and the reservations table below are
-                    not in the database yet, so they are still the Phase 1 example values. %>
+                <%# Sample data: "This month" and the reservations table are not in the database yet %>
                 <article class="card">
                     <h3>This month</h3>
                     <p><strong>42</strong> reservations</p>

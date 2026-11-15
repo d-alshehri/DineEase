@@ -1,70 +1,57 @@
-require('dotenv').config(); // Load DB_HOST, DB_PASSWORD, PORT ... from the .env file (must be the first line)
+require('dotenv').config(); // must be first, so process.env has the DB settings before db.js runs
 
-// ===================================================================
-// DineEase - main server file (SE371 Phase 2)
-// Node.js + Express + MySQL (mysql2) + EJS
-// ===================================================================
+// DineEase server: Express + MySQL + EJS
 
 const express = require('express');
 const path = require('path');
-const db = require('./db'); // shared MySQL connection pool (mysql2/promise)
+const db = require('./db');
 
-// Route modules (each file uses express.Router() and module.exports)
-const pageRoutes = require('./routes/pages');       // page routes: return web pages (res.render)
-const plansApi = require('./routes/plans');         // web API routes: return JSON only
+// Page routes return HTML (res.render), API routes return JSON only
+const pageRoutes = require('./routes/pages');
+const plansApi = require('./routes/plans');
 const profilesApi = require('./routes/profiles');
 const feedbackApi = require('./routes/feedback');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ---------- Settings ----------
-app.set('view engine', 'ejs');                    // res.render('index') looks for views/index.ejs
-app.set('views', path.join(__dirname, 'views'));  // where the .ejs files are
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// ---------- Middleware (runs for every request, in this order) ----------
-
-// Logging middleware: prints e.g. "GET /plans - ::1" in the terminal for every request
+// Logs every request, e.g. "GET /plans - ::1"
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path} - ${req.ip}`);
-  next(); // continue to the next middleware / route
+  next();
 });
 
-// Static files: anything inside public/ is sent as-is (e.g. /css/style.css, /js/login.js).
-// Only public/ is served, so server.js, .env etc. can never be downloaded.
+// Only public/ is served, so files like server.js and .env can't be downloaded
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Body parsers: turn the request body into req.body
-app.use(express.json());                          // JSON bodies sent by fetch()
-app.use(express.urlencoded({ extended: false })); // normal HTML form submissions
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// ---------- Routes ----------
-
-// 1) Page routes: return HTML pages
+// Routes
 app.use('/', pageRoutes);
-
-// 2) Web API routes: return JSON only, all start with /api
 app.use('/api/plans', plansApi);
 app.use('/api/profiles', profilesApi);
 app.use('/api/feedback', feedbackApi);
 
-// Unknown API URL (e.g. /api/nothing) -> JSON 404, because API clients expect JSON
+// 404s go after all the routes, otherwise they would catch every request.
+// Unknown /api URLs get JSON, everything else gets the 404 page.
 app.use('/api', (req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
 
-// Any other unknown URL -> the 404 page (must come after all other routes)
 app.use((req, res) => {
   res.status(404).render('404', { title: '404' });
 });
 
-// ---------- Error-handling middleware ----------
-// Express knows this is an error handler because it has 4 parameters (err, req, res, next).
-// Routes send errors here with next(error) or by throwing inside an async handler.
+// Error handler: Express treats it as one because it has 4 parameters.
+// Errors from next(error) end up here.
 app.use((err, req, res, next) => {
   const isApi = req.originalUrl.startsWith('/api');
 
-  // The client sent broken JSON (express.json() could not parse it)
+  // broken JSON in the request body
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ error: 'Invalid JSON body' });
   }
@@ -72,17 +59,16 @@ app.use((err, req, res, next) => {
   console.error(err);
 
   if (isApi) {
-    return res.status(500).json({ error: 'Internal server error' }); // API -> JSON
+    return res.status(500).json({ error: 'Internal server error' });
   }
-  res.status(500).render('error', { title: 'Error' });             // page -> error page
+  res.status(500).render('error', { title: 'Error' });
 });
 
-// ---------- Database check ----------
-// Tests the MySQL connection once when the server starts.
+// Checks the MySQL connection once on startup
 async function connectToDB() {
   try {
-    const connection = await db.getConnection(); // borrow one connection from the pool
-    connection.release();                        // give it back straight away
+    const connection = await db.getConnection();
+    connection.release();
     console.log('Successfully connected to database server...');
   } catch (error) {
     console.error('Could not connect to the database. Check your .env file and that MySQL is running.');
@@ -90,9 +76,8 @@ async function connectToDB() {
   }
 }
 
-// ---------- Start the server ----------
-// require.main === module is true only when we run "node server.js" directly.
-// The server does not start when another file does require('./server'), for example a test.
+// Only start the server when we run "node server.js",
+// not when another file (like a test) requires this one
 if (require.main === module) {
   app.listen(PORT, async () => {
     console.log(`DineEase running at http://localhost:${PORT}`);
@@ -100,4 +85,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = app; // export the app so other files (e.g. tests) can use it
+module.exports = app;

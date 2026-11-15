@@ -1,9 +1,5 @@
-<%# Shared navigation bar for every EJS page.
-    Variable: active (optional). It names the current page: 'home', 'plans', 'manage-plans', 'support' or 'profile'.
-    current('plans') returns the attributes that highlight a link when it is the current page:
-      class="active"         -> the CSS underlines it (style.css)
-      aria-current="page"    -> screen readers say "current page"
-    We use locals.active so pages that do not pass "active" do not crash. %>
+<%# active = the current page ('home', 'plans', 'manage-plans', 'support', 'profile').
+    locals.active is used so pages that don't pass it don't crash. %>
 <% const current = (name) => (locals.active === name ? 'class="active" aria-current="page"' : ''); %>
 <header class="site-header">
     <nav class="nav container" aria-label="Main navigation">

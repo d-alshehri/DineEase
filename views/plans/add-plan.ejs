@@ -1,9 +1,6 @@
-<%# One form for two pages (variables from routes/pages.js):
-    mode = 'create' -> GET /plans/add      : empty form, saved with POST /api/plans
-    mode = 'edit'   -> GET /plans/5/edit   : form filled with plan 5, saved with PUT /api/plans/5
-    plan = the plan to show in the form (empty values in create mode) %>
+<%# Used by /plans/add (mode 'create') and /plans/:id/edit (mode 'edit').
+    plan = the plan to fill in (empty values when creating) %>
 <% const isEdit = mode === 'edit'; %>
-<%# Returns 'selected' for the <option> that matches the plan's saved value %>
 <% const selectedIf = (value, option) => (value === option ? 'selected' : ''); %>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +22,7 @@
     <section class="form-card" aria-labelledby="form-title">
       <h2 id="form-title">Plan information</h2>
       <p class="muted">Fields marked * are required.</p>
-      <%# data-mode and data-plan-id tell public/js/plans-api.js whether to send POST or PUT %>
+      <%# plans-api.js uses these to send POST or PUT %>
       <form id="add-plan-form" data-mode="<%= mode %>" data-plan-id="<%= plan.id || '' %>">
         <div class="form-grid">
           <div class="field">
@@ -47,7 +44,7 @@
           </div>
           <div class="field">
             <label for="plan-start">Available from *</label>
-            <%# A date input needs the YYYY-MM-DD format, which is how MySQL sends it (dateStrings in db.js) %>
+            <%# date inputs need YYYY-MM-DD, which is what MySQL sends (dateStrings in db.js) %>
             <input id="plan-start" name="startDate" type="date" value="<%= plan.start_date %>" required>
           </div>
           <div class="field">

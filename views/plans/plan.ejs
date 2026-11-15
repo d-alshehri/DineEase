@@ -1,6 +1,4 @@
-<%# One plan's own page for customers: GET /plans/5 (routes/pages.js).
-    "View Plan" on the home page and "View details" on /plans open this page.
-    plan = one row from the plans table (+ start_date_label, e.g. "1 Jan 2026") %>
+<%# One plan's page (/plans/:id). plan = one row from the plans table %>
 <% const period = plan.duration === 'Yearly' ? 'year' : 'month'; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +14,6 @@
       <p class="lead"><%= plan.description %></p>
     </section>
 
-    <%# Same card design as on the plans list (plans.css) %>
     <article class="plan-card<%= plan.category === 'Premium' ? ' featured' : '' %> plan-single" aria-labelledby="plan-title">
       <span class="plan-tag"><%= plan.category %></span>
       <h2 id="plan-title">What you get</h2>

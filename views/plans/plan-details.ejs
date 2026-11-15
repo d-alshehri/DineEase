@@ -1,7 +1,5 @@
-<%# One view for two pages (variables from routes/pages.js):
-    manage = false -> GET /plans         : customers browse the plans (read-only)
-    manage = true  -> GET /plans/manage  : the same cards + Add / Edit / Delete buttons
-    plans = all plans from MySQL %>
+<%# Used by /plans (manage = false) and /plans/manage (manage = true, shows Add / Edit / Delete).
+    plans = all rows from the plans table %>
 <!DOCTYPE html>
 <html lang="en">
 <%- include("../partials/head.ejs") %>
@@ -31,10 +29,9 @@
         <% } %>
       </div>
 
-      <%# Messages from public/js/delete-buttons.js (e.g. "Deleted successfully.") %>
+      <%# message after a delete (delete-buttons.js) %>
       <p id="list-status" class="form-message" role="status" aria-live="polite"></p>
 
-      <%# "plans" comes from MySQL: routes/pages.js reads it and passes it here %>
       <% if (plans.length === 0) { %>
         <p id="plan-empty" class="empty-state">
           <%= manage ? 'No plans yet. Add your first plan to get started.' : 'There are no plans to show right now.' %>
@@ -42,11 +39,11 @@
       <% } else { %>
         <div class="plan-grid" id="plan-list">
           <% plans.forEach(plan => { %>
-            <%# data-item marks one thing that a Delete button can remove from the page %>
+            <%# data-item: the card delete-buttons.js removes after a delete %>
             <article class="plan-card<%= plan.category === 'Premium' ? ' featured' : '' %>" data-item>
               <span class="plan-tag"><%= plan.category %></span>
               <h3><%= plan.name %></h3>
-              <%# MySQL sends DECIMAL as text ("49.00"), so we use Number() before toFixed(2) %>
+              <%# price comes from MySQL as text ("49.00"), so Number() first %>
               <p class="price"><%= Number(plan.price).toFixed(2) %> SAR <small>/ <%= plan.duration === 'Yearly' ? 'year' : 'month' %></small></p>
               <p class="plan-description"><%= plan.description %></p>
               <ul class="plan-features">
@@ -57,7 +54,6 @@
               <p class="plan-meta">Available from: <%= plan.start_date_label %></p>
 
               <% if (manage) { %>
-                <%# Edit opens the form filled with this plan. Delete first asks "are you sure?" on the page itself. %>
                 <div class="item-actions" data-actions>
                   <a class="button button-secondary" href="/plans/<%= plan.id %>/edit">Edit</a>
                   <button type="button" class="button button-danger" data-show-confirm>Delete</button>

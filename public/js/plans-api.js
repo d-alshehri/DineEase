@@ -1,17 +1,13 @@
 'use strict';
 
-// Add Plan / Edit Plan form (views/plans/add-plan.ejs).
-// The plan cards on /plans are now built on the server with EJS (routes/pages.js),
-// so this file only sends the form to the API:
-//   create mode -> POST /api/plans        (new plan)
-//   edit mode   -> PUT  /api/plans/:id    (change an existing plan)
+// Add / Edit Plan form: POST /api/plans for a new plan, PUT /api/plans/:id when editing
 function connectPlanForm() {
   const form = document.getElementById('add-plan-form');
   if (!form) return;
 
   const status = document.getElementById('form-message');
-  const isEdit = form.dataset.mode === 'edit';   // from data-mode="..." on the <form>
-  const planId = form.dataset.planId;            // from data-plan-id="..." on the <form>
+  const isEdit = form.dataset.mode === 'edit';   // data-mode and data-plan-id are set in add-plan.ejs
+  const planId = form.dataset.planId;
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -38,14 +34,14 @@ function connectPlanForm() {
       const result = await response.json();
 
       if (!response.ok) {
-        // 400 -> { errors: [...] } (invalid fields), 404 / 409 -> { error: '...' }
+        // 400 sends { errors: [...] }, 404 and 409 send { error }
         throw new Error(result.errors ? result.errors.join(', ') : (result.error || 'Could not save plan.'));
       }
 
       status.textContent = isEdit ? 'Changes saved successfully!' : 'Plan saved successfully!';
       status.className = 'form-message';
       if (!isEdit) form.reset();
-      setTimeout(() => { window.location.href = '/plans/manage'; }, 800); // back to the management page
+      setTimeout(() => { window.location.href = '/plans/manage'; }, 800);
     } catch (error) {
       status.textContent = error.message;
       status.className = 'form-message error';

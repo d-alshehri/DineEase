@@ -1,10 +1,9 @@
 'use strict';
 
-// Submit the Feedback form to POST /api/feedback.
+// Feedback form -> POST /api/feedback
 const feedbackForm = document.getElementById('feedbackForm');
 
 if (feedbackForm) {
-  // The message line is in views/support.ejs (<p id="feedback-message">)
   const feedbackMessage = document.getElementById('feedback-message');
 
   feedbackForm.addEventListener('submit', async event => {
@@ -29,8 +28,7 @@ if (feedbackForm) {
 
       feedbackMessage.textContent = 'Sending...';
       feedbackMessage.className = 'form-message';
-      // Reload the page so the "Recent feedback" list (rendered by the server) shows the new message.
-      // ?sent=1 tells the /support route to show the "Thank you" message.
+      // reload so the new feedback shows in the list, ?sent=1 shows the thank-you message
       window.location.href = '/support?sent=1';
     } catch (error) {
       feedbackMessage.textContent = error.message;
@@ -39,8 +37,7 @@ if (feedbackForm) {
   });
 }
 
-// "Search Plans" box: search the REAL plans using the existing GET /api/plans endpoint.
-// (The Phase 1 search of sample data is a separate box, in public/js/search.js.)
+// "Search Plans": searches the real plans from GET /api/plans (the sample-data search is in search.js)
 const searchForm = document.getElementById('searchForm');
 
 if (searchForm) {

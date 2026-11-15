@@ -1,7 +1,5 @@
-<%# Shared <head> for every EJS page.
-    Variables: title (required), styles (optional array of extra CSS files).
-    We use locals.styles because a page that does not pass "styles" would crash
-    with "styles is not defined". locals.styles is just undefined in that case. %>
+<%# Variables: title, and an optional styles array for page CSS.
+    locals.styles is used so pages that don't pass styles don't crash. %>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,10 +7,8 @@
 
     <title>DineEase - <%= title %></title>
 
-    <%# Site theme, used on every page (header, footer, cards, forms, buttons ...) %>
     <link rel="stylesheet" href="/css/style.css">
 
-    <%# Extra stylesheets for this page only %>
     <% if (locals.styles) { %>
         <% locals.styles.forEach((file) => { %>
     <link rel="stylesheet" href="<%= file %>">

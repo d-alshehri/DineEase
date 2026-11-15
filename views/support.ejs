@@ -17,13 +17,13 @@
             </p>
         </section>
 
-        <!-- 1) Send feedback: public/js/feedback-api.js sends it to POST /api/feedback -->
+        <!-- Feedback form (feedback-api.js) -->
         <section class="form-card" aria-labelledby="feedback-title">
 
             <h2 id="feedback-title">Send us a message</h2>
             <p class="muted">All fields are required.</p>
 
-            <%# "sent" is true after a successful send (the page reloads with ?sent=1) %>
+            <%# sent: after a successful send (/support?sent=1) %>
             <% if (sent) { %>
                 <p class="form-message" role="status">Thank you! Your feedback was submitted successfully.</p>
             <% } %>
@@ -95,13 +95,13 @@
         </section>
 
 
-        <!-- 2) Recent feedback: rendered on the server from MySQL (GET /support in routes/pages.js) -->
+        <!-- Recent feedback from MySQL, with keyword search -->
         <section class="form-card" id="recent-feedback" aria-labelledby="recent-title">
 
             <h2 id="recent-title">Recent feedback</h2>
             <p class="muted">Messages sent by our customers, newest first.</p>
 
-            <%# A normal GET form: the browser opens /support?keyword=... and the server filters the list %>
+            <%# GET form: the /support route reads ?keyword= and filters the list %>
             <form method="get" action="/support" class="search-form" role="search">
                 <div class="field">
                     <label for="keyword">Search feedback by keyword</label>
@@ -120,7 +120,7 @@
                 <% } %>
             </form>
 
-            <%# Messages from public/js/delete-buttons.js (e.g. "Deleted successfully.") %>
+            <%# message after a delete (delete-buttons.js) %>
             <p id="list-status" class="form-message" role="status" aria-live="polite"></p>
 
             <% if (keyword && feedback.length > 0) { %>
@@ -134,7 +134,6 @@
             <% } else { %>
                 <ul class="feedback-list">
                     <% feedback.forEach(item => { %>
-                        <%# data-item: public/js/delete-buttons.js removes this <li> after a delete %>
                         <li class="feedback-item" data-item>
                             <div class="feedback-header">
                                 <strong><%= item.name %></strong>
@@ -161,7 +160,7 @@
         </section>
 
 
-        <!-- 3) Search Plans (live data): public/js/feedback-api.js searches GET /api/plans -->
+        <!-- Search the real plans (feedback-api.js, GET /api/plans) -->
         <section class="form-card" aria-labelledby="search-title">
 
             <h2 id="search-title">Search Plans</h2>
@@ -184,7 +183,6 @@
 
             </form>
 
-            <!-- Search Results -->
             <div class="table-wrap search-results">
 
                 <table>
@@ -211,7 +209,7 @@
         </section>
 
 
-        <!-- 4) Phase 1 requirement: search DUMMY data stored in a JavaScript file (public/js/search.js) -->
+        <!-- Phase 1 requirement: search dummy data from a JS file (search.js) -->
         <section class="form-card" aria-labelledby="demo-search-title">
 
             <h2 id="demo-search-title">Sample Plans Search (Phase 1 demo)</h2>

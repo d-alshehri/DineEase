@@ -1,10 +1,6 @@
-/* =========================
-   DineEase Support Page (views/support.ejs)
-   Only the styles this page needs on top of the site theme (style.css):
-   the header, footer, cards, forms, buttons and tables come from style.css.
-   ========================= */
+/* Support page only (loaded after style.css) */
 
-/* Search forms: the input and the buttons side by side */
+/* Search forms: input and buttons on one row */
 .search-form {
     display: flex;
     align-items: flex-end;
@@ -17,14 +13,11 @@
     min-width: 220px;
 }
 
-/* Space between a search form and its results table */
 .search-results {
     margin-top: 24px;
 }
 
-/* =========================
-   Recent feedback list
-   ========================= */
+/* Recent feedback list */
 
 .feedback-list {
     list-style: none;
@@ -62,10 +55,10 @@
 
 .feedback-text {
     margin: 0;
-    white-space: pre-line; /* keep the line breaks the customer typed */
+    white-space: pre-line; /* keeps the line breaks from the message */
 }
 
-/* Phones: put the Search button under the input */
+/* Phones: button goes under the input */
 @media (max-width: 600px) {
     .search-form {
         flex-direction: column;

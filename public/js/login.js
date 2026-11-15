@@ -1,7 +1,5 @@
 'use strict';
-// Login page (views/profile/login.ejs).
-// Sends the email and password to the web API with fetch(). If they are correct,
-// it opens that user's profile page. If not, it shows the error message.
+// Login form: checks the email and password with the API, then opens the profile page
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('login-form');
@@ -9,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!form) return;
 
   form.addEventListener('submit', async (event) => {
-    event.preventDefault();                 // stop the browser's normal form submit (page reload)
-    if (!form.reportValidity()) return;     // use the HTML5 validation (required, minlength ...)
+    event.preventDefault();
+    if (!form.reportValidity()) return;
 
     const f = new FormData(form);
     const body = {
@@ -27,17 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
 
       if (res.ok) {
-        // 200 OK -> the API sends back the user's profile (including the id)
-        msg.className = 'form-message';        // green text (style.css)
+        msg.className = 'form-message';
         msg.textContent = 'Logged in! Redirecting...';
         window.location.assign('/profile?id=' + data.id);
       } else {
-        // 401 -> wrong email or password
-        msg.className = 'form-message error';  // red text (style.css)
+        // 401 = wrong email or password
+        msg.className = 'form-message error';
         msg.textContent = data.error || 'Login failed';
       }
     } catch (err) {
-      msg.className = 'form-message error';  // red text (style.css)
+      msg.className = 'form-message error';
       msg.textContent = 'Could not reach the server. Run "npm start" and open http://localhost:3000.';
     }
   });

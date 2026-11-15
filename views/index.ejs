@@ -67,19 +67,17 @@
                 <a class="button button-secondary" href="/plans">See all plans</a>
             </div>
 
-            <%# "plans" comes from the database (see the GET / route in routes/pages.js) %>
+            <%# plans: from the plans table (GET / in routes/pages.js) %>
             <% if (plans.length === 0) { %>
                 <p class="empty-state">There are no plans to display right now.</p>
             <% } else { %>
                 <div class="card-grid">
 
                     <% plans.forEach((plan) => { %>
-                        <%# The Premium plan gets a green border, like on the Plans page %>
                         <article class="card <%= plan.category === 'Premium' ? 'featured' : '' %>">
                             <span class="tag"><%= plan.category %></span>
-                            <%# The "equals" tag escapes the text, so HTML typed into a plan name cannot run as code %>
                             <h3><%= plan.name %></h3>
-                            <%# MySQL sends DECIMAL as text like "49.00". Number() turns it into 49 %>
+                            <%# price comes from MySQL as text like "49.00" %>
                             <p class="price">
                                 SAR <%= Number(plan.price) %> <small>/ <%= plan.duration === 'Yearly' ? 'year' : 'month' %></small>
                             </p>

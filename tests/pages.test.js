@@ -1,8 +1,6 @@
-// Page route tests: every page loads, shows the shared navigation,
-// highlights the right link, and shows REAL data from MySQL (rendered with EJS).
-// Run from the DineEase root while the server is running (npm start):
-//   npm run test:pages
-// This test only READS data (no rows are created or deleted).
+// Page tests: every page loads with the nav and shows the data from MySQL.
+// Needs the server running (npm start), then: npm run test:pages
+// Only reads data, nothing is created or deleted.
 
 const BASE = process.env.BASE_URL || 'http://localhost:3000';
 let passed = 0, failed = 0;
@@ -12,19 +10,17 @@ function check(name, cond) {
   console.log(cond ? '  PASS' : '  FAIL', name);
 }
 
-// Get a page without following redirects, so we can check 301 / 302 too
+// redirect: 'manual' so we can check the 301 / 302 responses themselves
 async function page(url) {
   const res = await fetch(BASE + url, { redirect: 'manual' });
   return { status: res.status, location: res.headers.get('location'), html: await res.text() };
 }
 
-// The shared nav (views/partials/nav.ejs) is on the page
 const hasNav = html => html.includes('class="site-header"') && html.includes('aria-label="Main navigation"');
 
-// Text of the highlighted nav link (class="active")
 const activeLink = html => (html.match(/class="active" aria-current="page">([^<]+)</) || [])[1];
 
-// EJS escapes text, so compare with the escaped version of a name
+// EJS escapes names (e.g. ' becomes &#39;), so we compare with the escaped version
 const escapeHtml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&#34;').replace(/'/g, '&#39;');
 
 (async () => {

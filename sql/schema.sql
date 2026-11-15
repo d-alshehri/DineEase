@@ -42,8 +42,7 @@ INSERT IGNORE INTO plans (name, price, category, start_date, duration, menu_limi
  ('Growth',  49, 'Growth',  '2026-01-01', 'Monthly', 100, 'More flexibility for growing restaurants and cafes.',   1),
  ('Premium', 99, 'Premium', '2026-01-01', 'Monthly', 500, 'An expanded menu and online bookings for busy venues.', 1);
 
--- Feedback messages sent from the Feedback & Support page (used by routes/feedback.js).
--- This table used to be in sql/feedback.sql; it is here now so one script creates everything.
+-- Messages from the Feedback & Support page
 CREATE TABLE IF NOT EXISTS Feedback (
   id         INT AUTO_INCREMENT PRIMARY KEY,
   name       VARCHAR(100) NOT NULL,

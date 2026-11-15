@@ -1,13 +1,5 @@
-// =========================
-// Phase 1 requirement: search DUMMY data stored in this JavaScript file
-// and show the results in a styled table.
-// Used by the "Sample Plans Search (Phase 1 demo)" box on /support.
-// (The real plans search, which uses the database, is in feedback-api.js.)
-// =========================
-
-// =========================
-// DineEase Dummy Plan Data
-// =========================
+// Sample plans search on /support (Phase 1 requirement: search dummy data
+// stored in a JS file and show the results in a table). Not from the database.
 
 const samplePlans = [
     {
@@ -28,10 +20,6 @@ const samplePlans = [
 ];
 
 
-// =========================
-// Search Sample Plans Function
-// =========================
-
 const demoSearchForm = document.getElementById("demoSearchForm");
 const demoSearchInput = document.getElementById("demoSearchInput");
 const demoResults = document.getElementById("demoResults");
@@ -44,17 +32,14 @@ if (demoSearchForm) {
 
         const searchValue = demoSearchInput.value.trim().toLowerCase();
 
-        // Keep only the sample plans whose name contains the search text
         const filteredPlans = samplePlans.filter(function(plan) {
 
             return plan.name.toLowerCase().includes(searchValue);
 
         });
 
-        // Clear previous results
         demoResults.innerHTML = "";
 
-        // Check if no plans were found
         if (filteredPlans.length === 0) {
 
             demoResults.innerHTML = `
@@ -66,7 +51,6 @@ if (demoSearchForm) {
             return;
         }
 
-        // Display matching plans, one table row per plan
         filteredPlans.forEach(function(plan) {
 
             const row = document.createElement("tr");
