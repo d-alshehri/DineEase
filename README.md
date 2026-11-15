@@ -221,7 +221,7 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 - Implemented keyword search using GET (`/api/feedback?keyword=`).
 - Tested the Feedback API (`tests/feedback-smoke.js`).
 
-**Files:** `routes/feedback.js`, `tests/feedback-smoke.js`, `public/css/plans.css`
+**Files:** `routes/feedback.js`, `sql/feedback.sql`, `tests/feedback-smoke.js`, `public/css/plans.css`
 
 ### Najlaa Alarfaj
 
