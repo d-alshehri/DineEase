@@ -1,40 +1,36 @@
 // =========================
-// DineEase Dummy Plan Data
-// =========================
-
-const plans = [
-    {
-        name: "Starter",
-        price: "SAR 49",
-        duration: "Monthly"
-    },
-    {
-        name: "Professional",
-        price: "SAR 99",
-        duration: "Monthly"
-    },
-    {
-        name: "Premium",
-        price: "SAR 149",
-        duration: "Monthly"
-    }
-];
-
-
-// =========================
 // Search Plans Function
+// Phase 2: the plans come from the database through the web API
+// (GET /api/plans), so plans added on the Add Plan page are found too.
+// (In Phase 1 this file had a fixed list of 3 dummy plans.)
 // =========================
 
 const searchForm = document.getElementById("searchForm");
 const searchInput = document.getElementById("searchInput");
 const results = document.getElementById("results");
 
-searchForm.addEventListener("submit", function(event) {
+searchForm.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
     const searchValue = searchInput.value.trim().toLowerCase();
 
+    // Get the current list of plans from the server
+    let plans = [];
+    try {
+        const res = await fetch("/api/plans");
+        if (!res.ok) throw new Error("Server answered " + res.status);
+        plans = await res.json();
+    } catch (error) {
+        results.innerHTML = `
+            <tr>
+                <td colspan="3">Could not load the plans from the server. Please try again.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    // Keep only the plans whose name contains the search text
     const filteredPlans = plans.filter(function(plan) {
 
         return plan.name.toLowerCase().includes(searchValue);
@@ -61,7 +57,8 @@ searchForm.addEventListener("submit", function(event) {
 
         const row = document.createElement("tr");
 
-        [plan.name, plan.price, plan.duration].forEach(function(value) {
+        // The API sends price as a number (e.g. 49), so we add "SAR" in front
+        [plan.name, "SAR " + plan.price, plan.duration].forEach(function(value) {
 
             const cell = document.createElement("td");
 

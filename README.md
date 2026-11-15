@@ -78,7 +78,7 @@ DineEase/
 │   └── support.html
 │
 ├── public/                # Static files, served as-is
-│   ├── css/  (style.css, plans.css, support.css, Userprofile.css, user.css)
+│   ├── css/  (style.css = site theme for every page, plans.css, support.css)
 │   └── js/   (plans.js, search.js, add-user.js, login.js)
 │
 ├── sql/

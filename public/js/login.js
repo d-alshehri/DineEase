@@ -28,16 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (res.ok) {
         // 200 OK -> the API sends back the user's profile (including the id)
-        msg.style.color = 'green';
+        msg.className = 'form-message';        // green text (style.css)
         msg.textContent = 'Logged in! Redirecting...';
         window.location.assign('/profile?id=' + data.id);
       } else {
         // 401 -> wrong email or password
-        msg.style.color = 'crimson';
+        msg.className = 'form-message error';  // red text (style.css)
         msg.textContent = data.error || 'Login failed';
       }
     } catch (err) {
-      msg.style.color = 'crimson';
+      msg.className = 'form-message error';  // red text (style.css)
       msg.textContent = 'Could not reach the server. Run "npm start" and open http://localhost:3000.';
     }
   });

@@ -6,32 +6,32 @@
 
     <%- include("./partials/nav.ejs") %>
 
-    <main>
+    <main class="container">
 
-        <section class="hero">
-            <p class="subtitle">RESTAURANT AND CAFE MANAGEMENT</p>
-
-            <h2>Great Food. Easy Reservations.</h2>
-
-            <p>
+        <section class="page-intro" aria-labelledby="page-title">
+            <p class="eyebrow">RESTAURANT AND CAFE MANAGEMENT</p>
+            <h1 id="page-title">Great Food. Easy Reservations.</h1>
+            <p class="lead">
                 DineEase helps restaurants and cafes display their menus,
                 share prices, and allow customers to reserve tables in advance.
             </p>
-
-            <a class="button" href="#features">Explore Features</a>
-            <a class="button button-light" href="#pricing">View Pricing</a>
+            <div class="intro-actions">
+                <a class="button button-primary" href="#features">Explore Features</a>
+                <a class="button button-secondary" href="#pricing">View Pricing</a>
+            </div>
         </section>
 
-        <section class="features" id="features">
-            <h2>Our Features</h2>
+        <section class="section" id="features" aria-labelledby="features-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="features-title">Our Features</h2>
+                    <p class="muted">Everything you need to make your restaurant easier to manage.</p>
+                </div>
+            </div>
 
-            <p class="section-intro">
-                Everything you need to make your restaurant easier to manage.
-            </p>
+            <div class="card-grid">
 
-            <div class="feature-list">
-
-                <article class="feature-card">
+                <article class="card">
                     <h3>Digital Menu</h3>
                     <p>
                         Display your food and drinks with descriptions
@@ -39,7 +39,7 @@
                     </p>
                 </article>
 
-                <article class="feature-card">
+                <article class="card">
                     <h3>Table Reservations</h3>
                     <p>
                         Allow customers to reserve tables in advance
@@ -47,7 +47,7 @@
                     </p>
                 </article>
 
-                <article class="feature-card">
+                <article class="card">
                     <h3>Easy Menu Updates</h3>
                     <p>
                         Make it easier for restaurant owners to keep
@@ -58,33 +58,39 @@
             </div>
         </section>
 
-        <section class="pricing" id="pricing">
-            <h2>Our Pricing Plans</h2>
-
-            <p class="section-intro">
-                Choose a plan that suits your restaurant or cafe.
-            </p>
+        <section class="section" id="pricing" aria-labelledby="pricing-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="pricing-title">Our Pricing Plans</h2>
+                    <p class="muted">Choose a plan that suits your restaurant or cafe.</p>
+                </div>
+                <a class="button button-secondary" href="/plans">See all plans</a>
+            </div>
 
             <%# "plans" comes from the database (see the GET / route in routes/pages.js) %>
             <% if (plans.length === 0) { %>
-                <p>There are no plans to display right now.</p>
+                <p class="empty-state">There are no plans to display right now.</p>
             <% } else { %>
-                <div class="pricing-list">
+                <div class="card-grid">
 
                     <% plans.forEach((plan) => { %>
-                        <article class="price-card">
+                        <%# The Premium plan gets a green border, like on the Plans page %>
+                        <article class="card <%= plan.category === 'Premium' ? 'featured' : '' %>">
+                            <span class="tag"><%= plan.category %></span>
                             <%# The "equals" tag escapes the text, so HTML typed into a plan name cannot run as code %>
                             <h3><%= plan.name %></h3>
                             <%# MySQL sends DECIMAL as text like "49.00". Number() turns it into 49 %>
                             <p class="price">
-                                SAR <%= Number(plan.price) %> / <%= plan.duration === 'Yearly' ? 'year' : 'month' %>
+                                SAR <%= Number(plan.price) %> <small>/ <%= plan.duration === 'Yearly' ? 'year' : 'month' %></small>
                             </p>
-                            <p><%= plan.description %></p>
-                            <ul>
+                            <p class="muted"><%= plan.description %></p>
+                            <ul class="card-features">
                                 <li>Up to <%= plan.menu_limit %> menu items</li>
                                 <li><%= plan.reservations ? 'Table reservations included' : 'Table reservations not included' %></li>
                             </ul>
-                            <a href="/plans" class="button">View Plan</a>
+                            <div class="card-footer">
+                                <a href="/plans" class="button button-primary">View Plan</a>
+                            </div>
                         </article>
                     <% }) %>
 

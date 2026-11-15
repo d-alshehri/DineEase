@@ -8,82 +8,103 @@
 
     <title>DineEase - Feedback & Support</title>
 
+    <!-- Site theme (shared by every page), then this page's own styles -->
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/support.css">
     <script src="/js/search.js" defer></script>
 </head>
 
 <body>
 
-    <!-- Navigation -->
-    <header>
-        <nav class="navbar">
-            <h1 class="logo">DineEase</h1>
-
+    <!-- Shared header: same HTML as views/partials/nav.ejs.
+         When this page becomes EJS, replace it with include("./partials/nav.ejs") -->
+    <header class="site-header">
+        <nav class="nav container" aria-label="Main navigation">
+            <a class="brand" href="/">DineEase<span class="brand-dot">.</span></a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/#features">Features</a></li>
                 <li><a href="/#pricing">Pricing</a></li>
                 <li><a href="/plans">Plans</a></li>
                 <li><a href="/plans/add">Add Plan</a></li>
-                <li><a href="/support" class="active">Support</a></li>
+                <li><a href="/support" class="active" aria-current="page">Support</a></li>
                 <li><a href="/login">Profile</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
+    <main class="container narrow">
 
-        <!-- Feedback and Support Section -->
-        <section class="support-section">
-
-            <h2>Feedback & Support</h2>
-
-            <p class="section-description">
+        <section class="page-intro" aria-labelledby="page-title">
+            <p class="eyebrow">HELP CENTER</p>
+            <h1 id="page-title">Feedback &amp; Support</h1>
+            <p class="lead">
                 We are here to help you! Send us your questions,
                 suggestions, or feedback.
             </p>
+        </section>
+
+        <!-- Feedback and Support Section -->
+        <section class="form-card" aria-labelledby="feedback-title">
+
+            <h2 id="feedback-title">Send us a message</h2>
+            <p class="muted">All fields are required.</p>
 
             <form id="feedbackForm">
 
-                <label for="name">Name</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Enter your name"
-                    required
-                    minlength="2"
-                >
+                <div class="form-grid">
 
-                <label for="email">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-                >
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                            minlength="2"
+                        >
+                    </div>
 
-                <label for="subject">Subject</label>
-                <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    placeholder="Enter the subject"
-                    required
-                >
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
 
-                <label for="message">Message</label>
-                <textarea
-                    id="message"
-                    name="message"
-                    rows="5"
-                    placeholder="Write your message here..."
-                    required
-                    minlength="10"
-                ></textarea>
+                    <div class="field full">
+                        <label for="subject">Subject</label>
+                        <input
+                            type="text"
+                            id="subject"
+                            name="subject"
+                            placeholder="Enter the subject"
+                            required
+                        >
+                    </div>
 
-                <button type="submit">Send Message</button>
+                    <div class="field full">
+                        <label for="message">Message</label>
+                        <textarea
+                            id="message"
+                            name="message"
+                            rows="5"
+                            placeholder="Write your message here..."
+                            required
+                            minlength="10"
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="button button-primary">Send Message</button>
+                </div>
 
             </form>
 
@@ -91,32 +112,30 @@
 
 
         <!-- Search Plans Section -->
-        <section class="search-section">
+        <section class="form-card" aria-labelledby="search-title">
 
-            <h2>Search Plans</h2>
+            <h2 id="search-title">Search Plans</h2>
+            <p class="muted">Search for available DineEase subscription plans.</p>
 
-            <p class="section-description">
-                Search for available DineEase subscription plans.
-            </p>
+            <form id="searchForm" class="search-form">
 
-            <form id="searchForm">
+                <div class="field">
+                    <label for="searchInput">Plan Name</label>
+                    <input
+                        type="text"
+                        id="searchInput"
+                        name="search"
+                        placeholder="Enter plan name..."
+                        required
+                    >
+                </div>
 
-                <label for="searchInput">Plan Name</label>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    name="search"
-                    placeholder="Enter plan name..."
-                    required
-                >
-
-                <button type="submit">Search</button>
+                <button type="submit" class="button button-primary">Search</button>
 
             </form>
 
             <!-- Search Results -->
-            <div class="table-container">
+            <div class="table-wrap search-results">
 
                 <table>
                     <thead>
@@ -144,14 +163,12 @@
     </main>
 
 
-    <!-- Footer -->
-    <footer>
-        <p>DineEase - Making Dining Easier.</p>
-        <p>
-            <a href="/">Home</a> |
+    <!-- Shared footer: same HTML as views/partials/footer.ejs -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>&copy; 2026 DineEase - Making Dining Easier.</p>
             <a href="/support">Contact Support</a>
-        </p>
-        <p>&copy; 2026 DineEase. All rights reserved.</p>
+        </div>
     </footer>
 
 </body>

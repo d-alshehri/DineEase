@@ -13,16 +13,13 @@ const router = express.Router();
 // Folder with the plain HTML pages that are not converted to EJS yet
 const pagesFolder = path.join(__dirname, '..', 'pages');
 
-// Extra CSS files used by the login, sign-up and profile pages
-const profileStyles = ['/css/Userprofile.css', '/css/user.css'];
-
 // ---------- Home page ----------
 // GET / -> views/index.ejs, with the pricing plans read from the database
 router.get('/', async (req, res) => {
   let plans = [];
   try {
     const [rows] = await db.query(
-      'SELECT id, name, price, duration, menu_limit, reservations, description FROM plans ORDER BY price'
+      'SELECT id, name, price, category, duration, menu_limit, reservations, description FROM plans ORDER BY price'
     );
     plans = rows;
   } catch (error) {
@@ -51,12 +48,12 @@ router.get('/support', (req, res) => {
 // ---------- User profile pages ----------
 // GET /login -> views/profile/login.ejs
 router.get('/login', (req, res) => {
-  res.render('profile/login', { title: 'Log In', active: 'profile', styles: profileStyles });
+  res.render('profile/login', { title: 'Log In', active: 'profile' });
 });
 
 // GET /signup -> views/profile/add-user.ejs
 router.get('/signup', (req, res) => {
-  res.render('profile/add-user', { title: 'Sign Up', active: 'profile', styles: profileStyles });
+  res.render('profile/add-user', { title: 'Sign Up', active: 'profile' });
 });
 
 // GET /profile?id=5 -> views/profile/profile.ejs with that user's data from the database
@@ -87,7 +84,6 @@ router.get('/profile', async (req, res, next) => {
     res.render('profile/profile', {
       title: 'Profile',
       active: 'profile',
-      styles: ['/css/Userprofile.css'],
       user: rows[0]
     });
   } catch (error) {

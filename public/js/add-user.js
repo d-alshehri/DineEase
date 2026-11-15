@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const data = await res.json();
       if (res.ok) {
-        msg.style.color = 'green';
+        msg.className = 'form-message';        // green text (style.css)
         msg.textContent = 'Account created! Redirecting...';
         window.location.assign('/profile?id=' + data.id); // open the new user's profile page
       } else {
-        msg.style.color = 'crimson';
+        msg.className = 'form-message error';  // red text (style.css)
         msg.textContent = (data.errors || [data.error]).join(' | ');
       }
     } catch (err) {
-      msg.style.color = 'crimson';
+      msg.className = 'form-message error';  // red text (style.css)
       msg.textContent = 'Could not reach the server. Run "npm start" and open http://localhost:3000.';
     }
   });
