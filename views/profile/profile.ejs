@@ -37,7 +37,8 @@
                         <p>No plan selected yet</p>
                     <% } %>
                     <div class="card-footer">
-                        <a href="/plans">View plan details</a>
+                        <%# plan_id is empty when the user has no plan: then show all plans %>
+                        <a href="<%= user.plan_id ? '/plans/' + user.plan_id : '/plans' %>">View plan details</a>
                     </div>
                 </article>
 

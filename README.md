@@ -23,7 +23,8 @@ In Phase 2 the static website becomes a full-stack web application:
 ## ✨ Features
 
 - **Home page:** the pricing plans come from the database.
-- **Plans:** the plan cards are rendered with EJS from MySQL. Plans can be added, edited and deleted from the website (with an on-page "are you sure?" step before deleting).
+- **Plans (customers):** `/plans` lists all plans and `/plans/:id` shows one plan, rendered with EJS from MySQL. "View Plan" on the home page opens the plan's own page.
+- **Manage Plans:** `/plans/manage` lets you add, edit and delete plans (with an on-page "are you sure?" step before deleting).
 - **User profiles:** sign up, log in (passwords are hashed with bcrypt) and a profile page that shows the user's real data and plan.
 - **Feedback & Support:** send feedback, see the recent feedback (rendered with EJS from MySQL), search it by keyword and delete it.
 - **Search:** a live plan search (database), plus the Phase 1 search of sample data stored in `public/js/search.js`.
@@ -70,7 +71,8 @@ DineEase/
 │   ├── 404.ejs
 │   ├── error.ejs
 │   ├── plans/
-│   │   ├── plan-details.ejs  # All plans (cards with Edit / Delete)
+│   │   ├── plan-details.ejs  # All plans: /plans (read-only) and /plans/manage (Edit / Delete)
+│   │   ├── plan.ejs          # One plan's own page (/plans/:id)
 │   │   └── add-plan.ejs      # Add Plan AND Edit Plan form
 │   └── profile/
 │       ├── login.ejs
@@ -142,7 +144,9 @@ The tests create their own test data and delete it at the end.
 | Method | URL | Page |
 |---|---|---|
 | GET | `/` | Home page (`views/index.ejs`), plans from the database |
-| GET | `/plans` | All plans from the database (`views/plans/plan-details.ejs`) |
+| GET | `/plans` | All plans for customers, read-only (`views/plans/plan-details.ejs`) |
+| GET | `/plans/:id` | One plan's own page (`views/plans/plan.ejs`) |
+| GET | `/plans/manage` | Manage plans: Edit / Delete buttons (`views/plans/plan-details.ejs`) |
 | GET | `/plans/add` | Add a new plan (`views/plans/add-plan.ejs`) |
 | GET | `/plans/:id/edit` | Edit a plan: the same form, filled in (`views/plans/add-plan.ejs`) |
 | GET | `/support` | Feedback & Support with the recent feedback (`views/support.ejs`) |

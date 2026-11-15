@@ -43,23 +43,43 @@ router.get('/', async (req, res) => {
 });
 
 // ---------- Plans pages ----------
+// Customers:  /plans (all plans, read-only)  and  /plans/5 (one plan)
+// Management: /plans/manage (Edit / Delete), /plans/add, /plans/5/edit
 
-// GET /plans -> views/plans/plan-details.ejs with all plans from the database
+// Reads all plans from MySQL and adds a nicely formatted date, e.g. "1 Jan 2026"
+async function getAllPlans() {
+  const [rows] = await db.query('SELECT * FROM plans ORDER BY price ASC, id ASC');
+  return rows.map((plan) => ({ ...plan, start_date_label: formatDate(plan.start_date) }));
+}
+
+// GET /plans -> all plans for customers (no Edit / Delete buttons)
 router.get('/plans', async (req, res, next) => {
   try {
-    const [rows] = await db.query('SELECT * FROM plans ORDER BY price ASC, id ASC');
-
-    // Add a nicely formatted date to every plan, e.g. "1 Jan 2026"
-    const plans = rows.map((plan) => ({ ...plan, start_date_label: formatDate(plan.start_date) }));
-
     res.render('plans/plan-details', {
       title: 'Plans',
       active: 'plans',
       styles: ['/css/plans.css'],
-      plans: plans
+      plans: await getAllPlans(),
+      manage: false   // the view hides the management buttons
     });
   } catch (error) {
     next(error); // pass the error to the error-handling middleware in server.js
+  }
+});
+
+// GET /plans/manage -> the SAME list, with Add / Edit / Delete buttons
+// (Must come before /plans/:id, otherwise Express would treat "manage" as an id.)
+router.get('/plans/manage', async (req, res, next) => {
+  try {
+    res.render('plans/plan-details', {
+      title: 'Manage Plans',
+      active: 'manage-plans',
+      styles: ['/css/plans.css'],
+      plans: await getAllPlans(),
+      manage: true    // the view shows the management buttons
+    });
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -67,7 +87,7 @@ router.get('/plans', async (req, res, next) => {
 router.get('/plans/add', (req, res) => {
   res.render('plans/add-plan', {
     title: 'Add Plan',
-    active: 'add-plan',
+    active: 'manage-plans',
     styles: ['/css/plans.css'],
     mode: 'create',
     plan: EMPTY_PLAN
@@ -89,10 +109,37 @@ router.get('/plans/:id/edit', async (req, res, next) => {
 
     res.render('plans/add-plan', {
       title: 'Edit Plan',
-      active: 'plans',
+      active: 'manage-plans',
       styles: ['/css/plans.css'],
       mode: 'edit',
       plan: rows[0]
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET /plans/5 -> one plan's own page for customers ("View Plan" on the home page)
+// (Comes after /plans/manage and /plans/add, so those words are not taken as an id.)
+router.get('/plans/:id', async (req, res, next) => {
+  try {
+    // Not a number (e.g. the old URL /plans/plan-details.html)? Skip this route with next(),
+    // so the redirects at the bottom of this file, or the 404 page, can handle it.
+    if (!/^\d+$/.test(req.params.id)) {
+      return next();
+    }
+
+    const [rows] = await db.query('SELECT * FROM plans WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) {
+      return res.status(404).render('404', { title: '404' });
+    }
+
+    const plan = { ...rows[0], start_date_label: formatDate(rows[0].start_date) };
+    res.render('plans/plan', {
+      title: plan.name,
+      active: 'plans',
+      styles: ['/css/plans.css'],
+      plan: plan
     });
   } catch (error) {
     next(error);
@@ -162,7 +209,7 @@ router.get('/profile', async (req, res, next) => {
 
     // LEFT JOIN: we still get the user if they have no plan (plan fields will be null)
     const [rows] = await db.query(
-      `SELECT p.full_name, p.email, p.phone, p.restaurant_name,
+      `SELECT p.full_name, p.email, p.phone, p.restaurant_name, p.plan_id,
               pl.name AS plan_name, pl.price AS plan_price, pl.duration AS plan_duration
        FROM user_profiles p
        LEFT JOIN plans pl ON pl.id = p.plan_id

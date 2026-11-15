@@ -45,7 +45,7 @@ function connectPlanForm() {
       status.textContent = isEdit ? 'Changes saved successfully!' : 'Plan saved successfully!';
       status.className = 'form-message';
       if (!isEdit) form.reset();
-      setTimeout(() => { window.location.href = '/plans'; }, 800);
+      setTimeout(() => { window.location.href = '/plans/manage'; }, 800); // back to the management page
     } catch (error) {
       status.textContent = error.message;
       status.className = 'form-message error';

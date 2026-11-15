@@ -1,0 +1,42 @@
+<%# One plan's own page for customers: GET /plans/5 (routes/pages.js).
+    "View Plan" on the home page and "View details" on /plans open this page.
+    plan = one row from the plans table (+ start_date_label, e.g. "1 Jan 2026") %>
+<% const period = plan.duration === 'Yearly' ? 'year' : 'month'; %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+<body>
+  <%- include("../partials/nav.ejs") %>
+
+  <main class="container narrow">
+    <section class="page-intro" aria-labelledby="page-title">
+      <p class="eyebrow"><%= plan.category.toUpperCase() %> PLAN</p>
+      <h1 id="page-title"><%= plan.name %></h1>
+      <p class="lead"><%= plan.description %></p>
+    </section>
+
+    <%# Same card design as on the plans list (plans.css) %>
+    <article class="plan-card<%= plan.category === 'Premium' ? ' featured' : '' %> plan-single" aria-labelledby="plan-title">
+      <span class="plan-tag"><%= plan.category %></span>
+      <h2 id="plan-title">What you get</h2>
+      <p class="price"><%= Number(plan.price).toFixed(2) %> SAR <small>/ <%= period %></small></p>
+      <ul class="plan-features">
+        <li>Up to <%= plan.menu_limit %> menu items</li>
+        <li><%= plan.reservations ? 'Online table reservations included' : 'Digital menu display (no online reservations)' %></li>
+        <li>Easy price updates</li>
+        <li>Billed <%= plan.duration.toLowerCase() %></li>
+      </ul>
+      <p class="plan-meta">Available from: <%= plan.start_date_label %></p>
+
+      <div class="item-actions">
+        <a class="button button-primary" href="/signup">Get started</a>
+        <a class="button button-secondary" href="/plans">See all plans</a>
+      </div>
+    </article>
+  </main>
+
+  <%- include("../partials/footer.ejs") %>
+</body>
+
+</html>

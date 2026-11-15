@@ -1,5 +1,5 @@
 <%# Shared navigation bar for every EJS page.
-    Variable: active (optional). It names the current page: 'home', 'plans', 'add-plan', 'support' or 'profile'.
+    Variable: active (optional). It names the current page: 'home', 'plans', 'manage-plans', 'support' or 'profile'.
     current('plans') returns the attributes that highlight a link when it is the current page:
       class="active"         -> the CSS underlines it (style.css)
       aria-current="page"    -> screen readers say "current page"
@@ -14,7 +14,7 @@
             <li><a href="/#features">Features</a></li>
             <li><a href="/#pricing">Pricing</a></li>
             <li><a href="/plans" <%- current('plans') %>>Plans</a></li>
-            <li><a href="/plans/add" <%- current('add-plan') %>>Add Plan</a></li>
+            <li><a href="/plans/manage" <%- current('manage-plans') %>>Manage Plans</a></li>
             <li><a href="/support" <%- current('support') %>>Support</a></li>
             <li><a href="/login" <%- current('profile') %>>Profile</a></li>
         </ul>

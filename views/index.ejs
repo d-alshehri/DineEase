@@ -89,7 +89,7 @@
                                 <li><%= plan.reservations ? 'Table reservations included' : 'Table reservations not included' %></li>
                             </ul>
                             <div class="card-footer">
-                                <a href="/plans" class="button button-primary">View Plan</a>
+                                <a href="/plans/<%= plan.id %>" class="button button-primary">View Plan</a>
                             </div>
                         </article>
                     <% }) %>

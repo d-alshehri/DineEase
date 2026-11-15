@@ -1,3 +1,7 @@
+<%# One view for two pages (variables from routes/pages.js):
+    manage = false -> GET /plans         : customers browse the plans (read-only)
+    manage = true  -> GET /plans/manage  : the same cards + Add / Edit / Delete buttons
+    plans = all plans from MySQL %>
 <!DOCTYPE html>
 <html lang="en">
 <%- include("../partials/head.ejs") %>
@@ -7,24 +11,34 @@
 
   <main class="container">
     <section class="page-intro" aria-labelledby="page-title">
-      <p class="eyebrow">RESTAURANT SUBSCRIPTIONS</p>
-      <h1 id="page-title">Find the right plan for your restaurant.</h1>
-      <p class="lead">From your first digital menu to advanced reservation management, DineEase helps your business
-        grow.</p>
+      <% if (manage) { %>
+        <p class="eyebrow">PLAN MANAGEMENT</p>
+        <h1 id="page-title">Manage your plans.</h1>
+        <p class="lead">Add new subscription plans, or edit and delete the ones you already offer.</p>
+      <% } else { %>
+        <p class="eyebrow">RESTAURANT SUBSCRIPTIONS</p>
+        <h1 id="page-title">Find the right plan for your restaurant.</h1>
+        <p class="lead">From your first digital menu to advanced reservation management, DineEase helps your business
+          grow.</p>
+      <% } %>
     </section>
 
     <section aria-labelledby="plans-title">
       <div class="section-heading">
-        <h2 id="plans-title">Available plans</h2>
-        <a class="button button-primary" href="/plans/add">+ Add New Plan</a>
+        <h2 id="plans-title"><%= manage ? 'All plans' : 'Available plans' %></h2>
+        <% if (manage) { %>
+          <a class="button button-primary" href="/plans/add">+ Add New Plan</a>
+        <% } %>
       </div>
 
-      <%# Messages from public/js/delete-buttons.js (e.g. "Plan deleted.") %>
+      <%# Messages from public/js/delete-buttons.js (e.g. "Deleted successfully.") %>
       <p id="list-status" class="form-message" role="status" aria-live="polite"></p>
 
-      <%# "plans" comes from MySQL: the GET /plans route in routes/pages.js reads it and passes it here %>
+      <%# "plans" comes from MySQL: routes/pages.js reads it and passes it here %>
       <% if (plans.length === 0) { %>
-        <p id="plan-empty" class="empty-state">No plans yet. Add your first plan to get started.</p>
+        <p id="plan-empty" class="empty-state">
+          <%= manage ? 'No plans yet. Add your first plan to get started.' : 'There are no plans to show right now.' %>
+        </p>
       <% } else { %>
         <div class="plan-grid" id="plan-list">
           <% plans.forEach(plan => { %>
@@ -42,34 +56,44 @@
               </ul>
               <p class="plan-meta">Available from: <%= plan.start_date_label %></p>
 
-              <%# Edit opens the form filled with this plan. Delete first asks "are you sure?" on the page itself. %>
-              <div class="item-actions" data-actions>
-                <a class="button button-secondary" href="/plans/<%= plan.id %>/edit">Edit</a>
-                <button type="button" class="button button-danger" data-show-confirm>Delete</button>
-              </div>
-              <div class="confirm-delete" data-confirm hidden>
-                <p>Delete the plan "<%= plan.name %>"? This cannot be undone.</p>
-                <div class="item-actions">
-                  <button type="button" class="button button-secondary" data-cancel>Cancel</button>
-                  <button type="button" class="button button-danger" data-delete-url="/api/plans/<%= plan.id %>">Yes, delete</button>
+              <% if (manage) { %>
+                <%# Edit opens the form filled with this plan. Delete first asks "are you sure?" on the page itself. %>
+                <div class="item-actions" data-actions>
+                  <a class="button button-secondary" href="/plans/<%= plan.id %>/edit">Edit</a>
+                  <button type="button" class="button button-danger" data-show-confirm>Delete</button>
                 </div>
-              </div>
+                <div class="confirm-delete" data-confirm hidden>
+                  <p>Delete the plan "<%= plan.name %>"? This cannot be undone.</p>
+                  <div class="item-actions">
+                    <button type="button" class="button button-secondary" data-cancel>Cancel</button>
+                    <button type="button" class="button button-danger" data-delete-url="/api/plans/<%= plan.id %>">Yes, delete</button>
+                  </div>
+                </div>
+              <% } else { %>
+                <div class="item-actions">
+                  <a class="button button-primary" href="/plans/<%= plan.id %>">View details</a>
+                </div>
+              <% } %>
             </article>
           <% }) %>
         </div>
       <% } %>
     </section>
 
-    <section class="info-panel" aria-labelledby="about-plans-title">
-      <h2 id="about-plans-title">Why DineEase?</h2>
-      <p>Make your menu easy to browse, keep your prices up to date, and give customers a convenient way to reserve a
-        table before they visit.</p>
-    </section>
+    <% if (!manage) { %>
+      <section class="info-panel" aria-labelledby="about-plans-title">
+        <h2 id="about-plans-title">Why DineEase?</h2>
+        <p>Make your menu easy to browse, keep your prices up to date, and give customers a convenient way to reserve a
+          table before they visit.</p>
+      </section>
+    <% } %>
   </main>
 
   <%- include("../partials/footer.ejs") %>
 
-  <script src="/js/delete-buttons.js"></script>
+  <% if (manage) { %>
+    <script src="/js/delete-buttons.js"></script>
+  <% } %>
 </body>
 
 </html>
