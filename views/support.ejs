@@ -1,122 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="Contact DineEase for feedback and support.">
-
-    <title>DineEase - Feedback & Support</title>
-
-    <link rel="stylesheet" href="/css/support.css">
-    <script src="/js/feedback-api.js" defer></script>
-</head>
+<%- include("./partials/head.ejs") %>
 
 <body>
 
-    <!-- Navigation -->
-    <header>
-        <nav class="navbar">
-            <h1 class="logo">DineEase</h1>
+    <%- include("./partials/nav.ejs") %>
 
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="/plans">Plans</a></li>
-                <li><a href="/support">Support</a></li>
-                <li><a href="/user-profile/login.html">Profile</a></li>
-                <li><a href="/plans/add">Add Plan</a></li>
-            </ul>
-        </nav>
-    </header>
+    <main class="container narrow">
 
-    <main>
-
-        <!-- Feedback and Support Section -->
-        <section class="support-section">
-
-            <h2>Feedback & Support</h2>
-
-            <p class="section-description">
+        <section class="page-intro" aria-labelledby="page-title">
+            <p class="eyebrow">HELP CENTER</p>
+            <h1 id="page-title">Feedback &amp; Support</h1>
+            <p class="lead">
                 We are here to help you! Send us your questions,
                 suggestions, or feedback.
             </p>
+        </section>
+
+        <!-- 1) Send feedback: public/js/feedback-api.js sends it to POST /api/feedback -->
+        <section class="form-card" aria-labelledby="feedback-title">
+
+            <h2 id="feedback-title">Send us a message</h2>
+            <p class="muted">All fields are required.</p>
+
+            <%# "sent" is true after a successful send (the page reloads with ?sent=1) %>
+            <% if (sent) { %>
+                <p class="form-message" role="status">Thank you! Your feedback was submitted successfully.</p>
+            <% } %>
 
             <form id="feedbackForm">
 
-                <label for="name">Name</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Enter your name"
-                    required
-                    minlength="2"
-                >
+                <div class="form-grid">
 
-                <label for="email">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-                >
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                            minlength="2"
+                            maxlength="100"
+                        >
+                    </div>
 
-                <label for="subject">Subject</label>
-                <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    placeholder="Enter the subject"
-                    required
-                >
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
 
-                <label for="message">Message</label>
-                <textarea
-                    id="message"
-                    name="message"
-                    rows="5"
-                    placeholder="Write your message here..."
-                    required
-                    minlength="10"
-                ></textarea>
+                    <div class="field full">
+                        <label for="subject">Subject</label>
+                        <input
+                            type="text"
+                            id="subject"
+                            name="subject"
+                            placeholder="Enter the subject"
+                            required
+                            maxlength="200"
+                        >
+                    </div>
 
-                <button type="submit">Send Message</button>
+                    <div class="field full">
+                        <label for="message">Message</label>
+                        <textarea
+                            id="message"
+                            name="message"
+                            rows="5"
+                            placeholder="Write your message here..."
+                            required
+                            minlength="10"
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <p id="feedback-message" class="form-message" role="status" aria-live="polite"></p>
+
+                <div class="form-actions">
+                    <button type="submit" class="button button-primary">Send Message</button>
+                </div>
 
             </form>
 
         </section>
 
 
-        <!-- Search Plans Section -->
-        <section class="search-section">
+        <!-- 2) Recent feedback: rendered on the server from MySQL (GET /support in routes/pages.js) -->
+        <section class="form-card" id="recent-feedback" aria-labelledby="recent-title">
 
-            <h2>Search Plans</h2>
+            <h2 id="recent-title">Recent feedback</h2>
+            <p class="muted">Messages sent by our customers, newest first.</p>
 
-            <p class="section-description">
-                Search for available DineEase subscription plans.
-            </p>
+            <%# A normal GET form: the browser opens /support?keyword=... and the server filters the list %>
+            <form method="get" action="/support" class="search-form" role="search">
+                <div class="field">
+                    <label for="keyword">Search feedback by keyword</label>
+                    <input
+                        type="search"
+                        id="keyword"
+                        name="keyword"
+                        value="<%= keyword %>"
+                        placeholder="e.g. menu, reservation, price..."
+                        maxlength="200"
+                    >
+                </div>
+                <button type="submit" class="button button-primary">Search</button>
+                <% if (keyword) { %>
+                    <a class="button button-secondary" href="/support">Clear search</a>
+                <% } %>
+            </form>
 
-            <form id="searchForm">
+            <%# Messages from public/js/delete-buttons.js (e.g. "Deleted successfully.") %>
+            <p id="list-status" class="form-message" role="status" aria-live="polite"></p>
 
-                <label for="searchInput">Plan Name</label>
+            <% if (keyword && feedback.length > 0) { %>
+                <p class="muted">Showing <%= feedback.length %> result<%= feedback.length === 1 ? '' : 's' %> for "<%= keyword %>".</p>
+            <% } %>
 
-                <input
-                    type="text"
-                    id="searchInput"
-                    name="search"
-                    placeholder="Enter plan name..."
-                    required
-                >
+            <% if (feedback.length === 0) { %>
+                <p class="empty-state">
+                    <%= keyword ? `No feedback matches '${keyword}'.` : 'No feedback yet. Be the first to send us a message!' %>
+                </p>
+            <% } else { %>
+                <ul class="feedback-list">
+                    <% feedback.forEach(item => { %>
+                        <%# data-item: public/js/delete-buttons.js removes this <li> after a delete %>
+                        <li class="feedback-item" data-item>
+                            <div class="feedback-header">
+                                <strong><%= item.name %></strong>
+                                <span class="feedback-date"><%= item.date_label %></span>
+                            </div>
+                            <p class="feedback-subject"><%= item.subject %></p>
+                            <p class="feedback-text"><%= item.message %></p>
 
-                <button type="submit">Search</button>
+                            <div class="item-actions" data-actions>
+                                <button type="button" class="button button-danger" data-show-confirm>Delete</button>
+                            </div>
+                            <div class="confirm-delete" data-confirm hidden>
+                                <p>Delete this feedback from <%= item.name %>? This cannot be undone.</p>
+                                <div class="item-actions">
+                                    <button type="button" class="button button-secondary" data-cancel>Cancel</button>
+                                    <button type="button" class="button button-danger" data-delete-url="/api/feedback/<%= item.id %>">Yes, delete</button>
+                                </div>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+
+        </section>
+
+
+        <!-- 3) Search Plans (live data): public/js/feedback-api.js searches GET /api/plans -->
+        <section class="form-card" aria-labelledby="search-title">
+
+            <h2 id="search-title">Search Plans</h2>
+            <p class="muted">Search the real DineEase subscription plans saved in our database.</p>
+
+            <form id="searchForm" class="search-form">
+
+                <div class="field">
+                    <label for="searchInput">Plan Name</label>
+                    <input
+                        type="text"
+                        id="searchInput"
+                        name="search"
+                        placeholder="Enter plan name..."
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="button button-primary">Search</button>
 
             </form>
 
             <!-- Search Results -->
-            <div class="table-container">
+            <div class="table-wrap search-results">
 
                 <table>
                     <thead>
@@ -141,18 +208,65 @@
 
         </section>
 
+
+        <!-- 4) Phase 1 requirement: search DUMMY data stored in a JavaScript file (public/js/search.js) -->
+        <section class="form-card" aria-labelledby="demo-search-title">
+
+            <h2 id="demo-search-title">Sample Plans Search (Phase 1 demo)</h2>
+            <p class="muted">
+                This search uses sample data stored in a JavaScript file (public/js/search.js),
+                not the database. It shows the Phase 1 search feature.
+            </p>
+
+            <form id="demoSearchForm" class="search-form">
+
+                <div class="field">
+                    <label for="demoSearchInput">Sample plan name</label>
+                    <input
+                        type="text"
+                        id="demoSearchInput"
+                        name="demoSearch"
+                        placeholder="e.g. Starter, Professional, Premium"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="button button-secondary">Search samples</button>
+
+            </form>
+
+            <div class="table-wrap search-results">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plan Name</th>
+                            <th>Price</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="demoResults" aria-live="polite">
+                        <tr>
+                            <td colspan="3">
+                                Search the sample plans to see results.
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
     </main>
 
+    <%- include("./partials/footer.ejs") %>
 
-    <!-- Footer -->
-    <footer>
-        <p>DineEase - Making Dining Easier.</p>
-        <p>
-            <a href="/">Home</a> |
-            <a href="/support">Contact Support</a>
-        </p>
-        <p>&copy; 2026 DineEase. All rights reserved.</p>
-    </footer>
+    <script src="/js/feedback-api.js"></script>
+    <script src="/js/search.js"></script>
+    <script src="/js/delete-buttons.js"></script>
 
 </body>
 </html>

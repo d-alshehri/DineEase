@@ -10,7 +10,7 @@ const path = require('path');
 const db = require('./db'); // shared MySQL connection pool (mysql2/promise)
 
 // Route modules (each file uses express.Router() and module.exports)
-const pageRoutes = require('./routes/pages');       // page routes: return web pages (res.render / res.sendFile)
+const pageRoutes = require('./routes/pages');       // page routes: return web pages (res.render)
 const plansApi = require('./routes/plans');         // web API routes: return JSON only
 const profilesApi = require('./routes/profiles');
 const feedbackApi = require('./routes/feedback');

@@ -1,17 +1,30 @@
 // ===================================================================
-// Page routes: every route here sends back a WEB PAGE (HTML),
-// with res.render (EJS views) or res.sendFile (plain HTML in pages/).
+// Page routes: every route here sends back a WEB PAGE (HTML) with res.render().
+// The data is read from MySQL here, in the route, and passed to the EJS view.
 // The JSON "web API" routes are in plans.js, profiles.js and feedback.js.
 // ===================================================================
 
 const express = require('express');
-const path = require('path');
 const db = require('../db'); // shared MySQL connection pool
 
 const router = express.Router();
 
-// Folder with the plain HTML pages that are not converted to EJS yet
-const pagesFolder = path.join(__dirname, '..', 'pages');
+// ---------- Helpers ----------
+
+// Turns a MySQL date like "2026-01-01" or "2026-11-15 19:26:17" into "1 Jan 2026".
+// (db.js uses dateStrings: true, so MySQL dates arrive as plain text.)
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function formatDate(value) {
+  const [year, month, day] = String(value).slice(0, 10).split('-');
+  if (!year || !month || !day) return String(value); // unexpected format: show it as it is
+  return `${Number(day)} ${MONTHS[Number(month) - 1]} ${year}`;
+}
+
+// The empty form for "Add Plan". The Edit page fills the same form with a real plan instead.
+const EMPTY_PLAN = {
+  id: null, name: '', price: '', category: '', start_date: '',
+  duration: '', menu_limit: '', description: '', reservations: 0
+};
 
 // ---------- Home page ----------
 // GET / -> views/index.ejs, with the pricing plans read from the database
@@ -29,20 +42,101 @@ router.get('/', async (req, res) => {
   res.render('index', { title: 'Home', active: 'home', plans: plans });
 });
 
-// ---------- Plans and Support pages (plain HTML for now) ----------
-// TEMPORARY: Najlaa will replace with res.render()
-router.get('/plans', (req, res) => {
-  res.sendFile('plan-details.html', { root: pagesFolder });
+// ---------- Plans pages ----------
+
+// GET /plans -> views/plans/plan-details.ejs with all plans from the database
+router.get('/plans', async (req, res, next) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM plans ORDER BY price ASC, id ASC');
+
+    // Add a nicely formatted date to every plan, e.g. "1 Jan 2026"
+    const plans = rows.map((plan) => ({ ...plan, start_date_label: formatDate(plan.start_date) }));
+
+    res.render('plans/plan-details', {
+      title: 'Plans',
+      active: 'plans',
+      styles: ['/css/plans.css'],
+      plans: plans
+    });
+  } catch (error) {
+    next(error); // pass the error to the error-handling middleware in server.js
+  }
 });
 
-// TEMPORARY: Najlaa will replace with res.render()
+// GET /plans/add -> the plan form, empty ("create" mode)
 router.get('/plans/add', (req, res) => {
-  res.sendFile('add-plan.html', { root: pagesFolder });
+  res.render('plans/add-plan', {
+    title: 'Add Plan',
+    active: 'add-plan',
+    styles: ['/css/plans.css'],
+    mode: 'create',
+    plan: EMPTY_PLAN
+  });
 });
 
-// TEMPORARY: Najlaa will replace with res.render()
-router.get('/support', (req, res) => {
-  res.sendFile('support.html', { root: pagesFolder });
+// GET /plans/5/edit -> the SAME plan form, filled with plan 5 ("edit" mode)
+router.get('/plans/:id/edit', async (req, res, next) => {
+  try {
+    // The id must contain only digits, otherwise the page does not exist
+    if (!/^\d+$/.test(req.params.id)) {
+      return res.status(404).render('404', { title: '404' });
+    }
+
+    const [rows] = await db.query('SELECT * FROM plans WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) {
+      return res.status(404).render('404', { title: '404' });
+    }
+
+    res.render('plans/add-plan', {
+      title: 'Edit Plan',
+      active: 'plans',
+      styles: ['/css/plans.css'],
+      mode: 'edit',
+      plan: rows[0]
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ---------- Feedback & Support page ----------
+
+// GET /support            -> all feedback, newest first
+// GET /support?keyword=x  -> only the feedback that contains "x"
+// GET /support?sent=1     -> same page + a "thank you" message (after sending feedback)
+router.get('/support', async (req, res, next) => {
+  try {
+    // The keyword from the search form (method="get", input name="keyword")
+    const keyword = String(req.query.keyword || '').trim().slice(0, 200);
+
+    // Same search as GET /api/feedback?keyword=... in routes/feedback.js:
+    // look for the keyword inside name, email, subject or message.
+    // LIKE uses % and _ as wildcards, so we escape them to search for them literally.
+    const search = `%${keyword.replace(/[\\%_]/g, '\\$&')}%`;
+    const columns = 'id, name, email, subject, message, created_at';
+
+    const [rows] = keyword
+      ? await db.query(
+          `SELECT ${columns} FROM Feedback
+           WHERE name LIKE ? OR email LIKE ? OR subject LIKE ? OR message LIKE ?
+           ORDER BY created_at DESC, id DESC`,
+          [search, search, search, search]
+        )
+      : await db.query(`SELECT ${columns} FROM Feedback ORDER BY created_at DESC, id DESC`);
+
+    const feedback = rows.map((item) => ({ ...item, date_label: formatDate(item.created_at) }));
+
+    res.render('support', {
+      title: 'Feedback & Support',
+      active: 'support',
+      styles: ['/css/support.css'],
+      feedback: feedback,
+      keyword: keyword,
+      sent: req.query.sent === '1'
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // ---------- User profile pages ----------

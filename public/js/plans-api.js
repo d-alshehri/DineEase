@@ -1,74 +1,17 @@
 'use strict';
 
-// Load plans from the backend and display them on the Plans page.
-async function loadPlans() {
-  const grid = document.getElementById('plan-list');
-  if (!grid) return;
-
-  const emptyMessage = document.getElementById('plan-empty');
-
-  try {
-    const response = await fetch('/api/plans');
-    if (!response.ok) throw new Error('Could not load plans.');
-
-    const plans = await response.json();
-    grid.replaceChildren();
-    emptyMessage.hidden = plans.length !== 0;
-
-    plans.forEach(plan => {
-      const card = document.createElement('article');
-      card.className = `plan-card${plan.category === 'Premium' ? ' featured' : ''}`;
-
-      const tag = document.createElement('span');
-      tag.className = 'plan-tag';
-      tag.textContent = plan.category;
-
-      const name = document.createElement('h3');
-      name.textContent = plan.name;
-
-      const price = document.createElement('p');
-      price.className = 'price';
-      price.textContent = `${Number(plan.price).toFixed(2)} SAR `;
-      const period = document.createElement('small');
-      period.textContent = `/ ${String(plan.duration).toLowerCase() === 'yearly' ? 'year' : 'month'}`;
-      price.appendChild(period);
-
-      const description = document.createElement('p');
-      description.className = 'plan-description';
-      description.textContent = plan.description;
-
-      const features = document.createElement('ul');
-      features.className = 'plan-features';
-      [
-        `Up to ${Number(plan.menu_limit)} menu items`,
-        plan.reservations ? 'Online table reservations included' : 'Digital menu display',
-        'Easy price updates'
-      ].forEach(text => {
-        const item = document.createElement('li');
-        item.textContent = text;
-        features.appendChild(item);
-      });
-
-      const meta = document.createElement('p');
-      meta.className = 'plan-meta';
-      meta.textContent = `Available from: ${plan.start_date}`;
-
-      card.append(tag, name, price, description, features, meta);
-      grid.appendChild(card);
-    });
-  } catch (error) {
-    console.error(error);
-    emptyMessage.hidden = false;
-    emptyMessage.textContent = 'Could not load plans. Please try again.';
-  }
-}
-
-// Send the Add Plan form to POST /api/plans.
+// Add Plan / Edit Plan form (views/plans/add-plan.ejs).
+// The plan cards on /plans are now built on the server with EJS (routes/pages.js),
+// so this file only sends the form to the API:
+//   create mode -> POST /api/plans        (new plan)
+//   edit mode   -> PUT  /api/plans/:id    (change an existing plan)
 function connectPlanForm() {
   const form = document.getElementById('add-plan-form');
   if (!form) return;
 
   const status = document.getElementById('form-message');
+  const isEdit = form.dataset.mode === 'edit';   // from data-mode="..." on the <form>
+  const planId = form.dataset.planId;            // from data-plan-id="..." on the <form>
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -87,20 +30,21 @@ function connectPlanForm() {
     };
 
     try {
-      const response = await fetch('/api/plans', {
-        method: 'POST',
+      const response = await fetch(isEdit ? `/api/plans/${planId}` : '/api/plans', {
+        method: isEdit ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(plan)
       });
       const result = await response.json();
 
       if (!response.ok) {
+        // 400 -> { errors: [...] } (invalid fields), 404 / 409 -> { error: '...' }
         throw new Error(result.errors ? result.errors.join(', ') : (result.error || 'Could not save plan.'));
       }
 
-      status.textContent = 'Plan saved successfully!';
+      status.textContent = isEdit ? 'Changes saved successfully!' : 'Plan saved successfully!';
       status.className = 'form-message';
-      form.reset();
+      if (!isEdit) form.reset();
       setTimeout(() => { window.location.href = '/plans'; }, 800);
     } catch (error) {
       status.textContent = error.message;
@@ -110,8 +54,5 @@ function connectPlanForm() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const year = document.getElementById('year');
-  if (year) year.textContent = new Date().getFullYear();
-  loadPlans();
   connectPlanForm();
 });

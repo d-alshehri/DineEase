@@ -1,92 +1,90 @@
 // =========================
-// Search Plans Function
-// Phase 2: the plans come from the database through the web API
-// (GET /api/plans), so plans added on the Add Plan page are found too.
-// (In Phase 1 this file had a fixed list of 3 dummy plans.)
+// Phase 1 requirement: search DUMMY data stored in this JavaScript file
+// and show the results in a styled table.
+// Used by the "Sample Plans Search (Phase 1 demo)" box on /support.
+// (The real plans search, which uses the database, is in feedback-api.js.)
 // =========================
 
-const searchForm = document.getElementById("searchForm");
-const searchInput = document.getElementById("searchInput");
-const results = document.getElementById("results");
+// =========================
+// DineEase Dummy Plan Data
+// =========================
 
-searchForm.addEventListener("submit", async function(event) {
-
-    event.preventDefault();
-
-    const searchValue = searchInput.value.trim().toLowerCase();
-
-    // Get the current list of plans from the server
-    let plans = [];
-    try {
-        const res = await fetch("/api/plans");
-        if (!res.ok) throw new Error("Server answered " + res.status);
-        plans = await res.json();
-    } catch (error) {
-        results.innerHTML = `
-            <tr>
-                <td colspan="3">Could not load the plans from the server. Please try again.</td>
-            </tr>
-        `;
-        return;
+const samplePlans = [
+    {
+        name: "Starter",
+        price: "SAR 49",
+        duration: "Monthly"
+    },
+    {
+        name: "Professional",
+        price: "SAR 99",
+        duration: "Monthly"
+    },
+    {
+        name: "Premium",
+        price: "SAR 149",
+        duration: "Monthly"
     }
+];
 
-    // Keep only the plans whose name contains the search text
-    const filteredPlans = plans.filter(function(plan) {
 
-        return plan.name.toLowerCase().includes(searchValue);
+// =========================
+// Search Sample Plans Function
+// =========================
 
-    });
+const demoSearchForm = document.getElementById("demoSearchForm");
+const demoSearchInput = document.getElementById("demoSearchInput");
+const demoResults = document.getElementById("demoResults");
 
-    // Clear previous results
-    results.innerHTML = "";
+if (demoSearchForm) {
 
-    // Check if no plans were found
-    if (filteredPlans.length === 0) {
+    demoSearchForm.addEventListener("submit", function(event) {
 
-        results.innerHTML = `
-            <tr>
-                <td colspan="3">No results found.</td>
-            </tr>
-        `;
+        event.preventDefault();
 
-        return;
-    }
+        const searchValue = demoSearchInput.value.trim().toLowerCase();
 
-    // Display matching plans
-    filteredPlans.forEach(function(plan) {
+        // Keep only the sample plans whose name contains the search text
+        const filteredPlans = samplePlans.filter(function(plan) {
 
-        const row = document.createElement("tr");
-
-        // The API sends price as a number (e.g. 49), so we add "SAR" in front
-        [plan.name, "SAR " + plan.price, plan.duration].forEach(function(value) {
-
-            const cell = document.createElement("td");
-
-            cell.textContent = value;
-
-            row.appendChild(cell);
+            return plan.name.toLowerCase().includes(searchValue);
 
         });
 
-        results.appendChild(row);
+        // Clear previous results
+        demoResults.innerHTML = "";
+
+        // Check if no plans were found
+        if (filteredPlans.length === 0) {
+
+            demoResults.innerHTML = `
+                <tr>
+                    <td colspan="3">No results found.</td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        // Display matching plans, one table row per plan
+        filteredPlans.forEach(function(plan) {
+
+            const row = document.createElement("tr");
+
+            [plan.name, plan.price, plan.duration].forEach(function(value) {
+
+                const cell = document.createElement("td");
+
+                cell.textContent = value;
+
+                row.appendChild(cell);
+
+            });
+
+            demoResults.appendChild(row);
+
+        });
 
     });
 
-});
-
-
-// =========================
-// Feedback Form Function
-// =========================
-
-const feedbackForm = document.getElementById("feedbackForm");
-
-feedbackForm.addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-    alert("Thank you! Your feedback has been submitted successfully.");
-
-    feedbackForm.reset();
-
-});
+}

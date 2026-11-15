@@ -23,9 +23,10 @@ In Phase 2 the static website becomes a full-stack web application:
 ## ✨ Features
 
 - **Home page:** the pricing plans come from the database.
-- **Plans:** plan details and an "Add Plan" form (CRUD API in `/api/plans`).
+- **Plans:** the plan cards are rendered with EJS from MySQL. Plans can be added, edited and deleted from the website (with an on-page "are you sure?" step before deleting).
 - **User profiles:** sign up, log in (passwords are hashed with bcrypt) and a profile page that shows the user's real data and plan.
-- **Feedback & Support:** feedback form and keyword search (API in `/api/feedback`).
+- **Feedback & Support:** send feedback, see the recent feedback (rendered with EJS from MySQL), search it by keyword and delete it.
+- **Search:** a live plan search (database), plus the Phase 1 search of sample data stored in `public/js/search.js`.
 - **Shared layout:** one navigation bar for all EJS pages that highlights the current page.
 - **404 page** for unknown URLs, and a JSON 404 for unknown API URLs.
 - Old Phase 1 URLs (for example `/index.html`) redirect to the new routes.
@@ -54,7 +55,7 @@ DineEase/
 ├── .env.example           # Copy to .env and add your own MySQL password
 │
 ├── routes/
-│   ├── pages.js           # Page routes (res.render / res.sendFile)
+│   ├── pages.js           # Page routes (res.render), read data from MySQL for the views
 │   ├── plans.js           # Web API: /api/plans
 │   ├── profiles.js        # Web API: /api/profiles
 │   └── feedback.js        # Web API: /api/feedback
@@ -65,21 +66,20 @@ DineEase/
 │   │   ├── nav.ejs
 │   │   └── footer.ejs
 │   ├── index.ejs          # Home page
+│   ├── support.ejs        # Feedback & Support
 │   ├── 404.ejs
 │   ├── error.ejs
+│   ├── plans/
+│   │   ├── plan-details.ejs  # All plans (cards with Edit / Delete)
+│   │   └── add-plan.ejs      # Add Plan AND Edit Plan form
 │   └── profile/
 │       ├── login.ejs
 │       ├── add-user.ejs
 │       └── profile.ejs
 │
-├── pages/                 # Plain HTML pages (to be converted to EJS)
-│   ├── plan-details.html
-│   ├── add-plan.html
-│   └── support.html
-│
 ├── public/                # Static files, served as-is
 │   ├── css/  (style.css = site theme for every page, plans.css, support.css)
-│   └── js/   (plans.js, search.js, add-user.js, login.js)
+│   └── js/   (plans-api.js, feedback-api.js, delete-buttons.js, search.js, add-user.js, login.js)
 │
 ├── sql/
 │   └── schema.sql         # Creates the database, all tables and sample plans
@@ -142,9 +142,11 @@ The tests create their own test data and delete it at the end.
 | Method | URL | Page |
 |---|---|---|
 | GET | `/` | Home page (`views/index.ejs`), plans from the database |
-| GET | `/plans` | Plan details (`pages/plan-details.html`) |
-| GET | `/plans/add` | Add a new plan (`pages/add-plan.html`) |
-| GET | `/support` | Feedback & Support (`pages/support.html`) |
+| GET | `/plans` | All plans from the database (`views/plans/plan-details.ejs`) |
+| GET | `/plans/add` | Add a new plan (`views/plans/add-plan.ejs`) |
+| GET | `/plans/:id/edit` | Edit a plan: the same form, filled in (`views/plans/add-plan.ejs`) |
+| GET | `/support` | Feedback & Support with the recent feedback (`views/support.ejs`) |
+| GET | `/support?keyword=...` | Same page, only the feedback that contains the keyword |
 | GET | `/login` | Log in (`views/profile/login.ejs`) |
 | GET | `/signup` | Sign up (`views/profile/add-user.ejs`) |
 | GET | `/profile?id=N` | Profile page of user N (`views/profile/profile.ejs`) |

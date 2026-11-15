@@ -4,10 +4,8 @@
 const feedbackForm = document.getElementById('feedbackForm');
 
 if (feedbackForm) {
-  const feedbackMessage = document.createElement('p');
-  feedbackMessage.id = 'feedback-message';
-  feedbackMessage.setAttribute('role', 'status');
-  feedbackForm.appendChild(feedbackMessage);
+  // The message line is in views/support.ejs (<p id="feedback-message">)
+  const feedbackMessage = document.getElementById('feedback-message');
 
   feedbackForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -29,15 +27,20 @@ if (feedbackForm) {
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Could not submit feedback.');
 
-      feedbackMessage.textContent = 'Thank you! Your feedback was submitted successfully.';
-      feedbackForm.reset();
+      feedbackMessage.textContent = 'Sending...';
+      feedbackMessage.className = 'form-message';
+      // Reload the page so the "Recent feedback" list (rendered by the server) shows the new message.
+      // ?sent=1 tells the /support route to show the "Thank you" message.
+      window.location.href = '/support?sent=1';
     } catch (error) {
       feedbackMessage.textContent = error.message;
+      feedbackMessage.className = 'form-message error';
     }
   });
 }
 
-// Search plans using the existing GET /api/plans endpoint.
+// "Search Plans" box: search the REAL plans using the existing GET /api/plans endpoint.
+// (The Phase 1 search of sample data is a separate box, in public/js/search.js.)
 const searchForm = document.getElementById('searchForm');
 
 if (searchForm) {

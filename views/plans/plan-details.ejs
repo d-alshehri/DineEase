@@ -1,29 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plan Details | DineEase</title>
-  <link rel="stylesheet" href="/css/plans.css">
-  <script src="/js/plans-api.js" defer></script>
-</head>
+<%- include("../partials/head.ejs") %>
 
 <body>
-  <header class="site-header">
-    <nav class="nav container" aria-label="Main navigation">
-      <a class="brand" href="/">DineEase<span class="brand-dot">.</span></a>
-      <div class="nav-links">
-        <li><a href="/">Home</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="/plans">Plans</a></li>
-          <li><a href="/support">Support</a></li>
-          <li><a href="/user-profile/login.html">Profile</a></li>
-          <li><a href="/plans/add">Add Plan</a></li>
-      </div>
-    </nav>
-  </header>
+  <%- include("../partials/nav.ejs") %>
 
   <main class="container">
     <section class="page-intro" aria-labelledby="page-title">
@@ -38,8 +18,46 @@
         <h2 id="plans-title">Available plans</h2>
         <a class="button button-primary" href="/plans/add">+ Add New Plan</a>
       </div>
-      <div class="plan-grid" id="plan-list" aria-live="polite"></div>
-      <p id="plan-empty" class="empty-state" hidden>No plans yet. Add your first plan to get started.</p>
+
+      <%# Messages from public/js/delete-buttons.js (e.g. "Plan deleted.") %>
+      <p id="list-status" class="form-message" role="status" aria-live="polite"></p>
+
+      <%# "plans" comes from MySQL: the GET /plans route in routes/pages.js reads it and passes it here %>
+      <% if (plans.length === 0) { %>
+        <p id="plan-empty" class="empty-state">No plans yet. Add your first plan to get started.</p>
+      <% } else { %>
+        <div class="plan-grid" id="plan-list">
+          <% plans.forEach(plan => { %>
+            <%# data-item marks one thing that a Delete button can remove from the page %>
+            <article class="plan-card<%= plan.category === 'Premium' ? ' featured' : '' %>" data-item>
+              <span class="plan-tag"><%= plan.category %></span>
+              <h3><%= plan.name %></h3>
+              <%# MySQL sends DECIMAL as text ("49.00"), so we use Number() before toFixed(2) %>
+              <p class="price"><%= Number(plan.price).toFixed(2) %> SAR <small>/ <%= plan.duration === 'Yearly' ? 'year' : 'month' %></small></p>
+              <p class="plan-description"><%= plan.description %></p>
+              <ul class="plan-features">
+                <li>Up to <%= plan.menu_limit %> menu items</li>
+                <li><%= plan.reservations ? 'Online table reservations included' : 'Digital menu display' %></li>
+                <li>Easy price updates</li>
+              </ul>
+              <p class="plan-meta">Available from: <%= plan.start_date_label %></p>
+
+              <%# Edit opens the form filled with this plan. Delete first asks "are you sure?" on the page itself. %>
+              <div class="item-actions" data-actions>
+                <a class="button button-secondary" href="/plans/<%= plan.id %>/edit">Edit</a>
+                <button type="button" class="button button-danger" data-show-confirm>Delete</button>
+              </div>
+              <div class="confirm-delete" data-confirm hidden>
+                <p>Delete the plan "<%= plan.name %>"? This cannot be undone.</p>
+                <div class="item-actions">
+                  <button type="button" class="button button-secondary" data-cancel>Cancel</button>
+                  <button type="button" class="button button-danger" data-delete-url="/api/plans/<%= plan.id %>">Yes, delete</button>
+                </div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      <% } %>
     </section>
 
     <section class="info-panel" aria-labelledby="about-plans-title">
@@ -48,9 +66,10 @@
         table before they visit.</p>
     </section>
   </main>
-  <footer class="site-footer">
-    <div class="container">&copy; <span id="year"></span> DineEase. Made for restaurants and cafés.</div>
-  </footer>
+
+  <%- include("../partials/footer.ejs") %>
+
+  <script src="/js/delete-buttons.js"></script>
 </body>
 
 </html>
