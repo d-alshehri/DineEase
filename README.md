@@ -189,8 +189,10 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 - Created the server routes and project configuration (`routes/pages.js`, `.env.example`, `package.json`).
 - Connected the existing website to the server, with static files served from `public/`.
 - Set up the shared EJS layouts and navigation (`views/partials/head.ejs`, `nav.ejs`, `footer.ejs`).
+- Integrated everyone's work into one app: the EJS pages, the Plans and Feedback APIs and the profile pages.
+- Tested the full app on her device: the API tests, the feedback test, the page tests (`tests/pages.test.js`) and every form in the browser.
 
-**Files:** `server.js`, `routes/pages.js`, `views/index.ejs`, `views/partials/`, `views/404.ejs`, `views/error.ejs`, `public/css/style.css`
+**Files:** `server.js`, `routes/pages.js`, `views/index.ejs`, `views/partials/`, `views/404.ejs`, `views/error.ejs`, `public/css/style.css`, `tests/pages.test.js`
 
 ### Jawaher Alborethen
 
@@ -240,7 +242,7 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 
 **Files:** `views/plans/`, `views/support.ejs`, `public/js/plans-api.js`, `public/js/feedback-api.js`, `public/js/search.js`, `public/css/support.css`
 
-All team members contributed to integration, testing, and keeping the website consistent.
+Danah integrated everyone's work and tested the full project on her device, where the app runs.
 
 ## Deadlines
 
