@@ -184,19 +184,79 @@ Unknown `/api/...` URLs return `{ "error": "Not found" }` with status 404.
 
 ## 👥 Team Members & Contributions
 
-| Student | Name | Phase 1 | Phase 2 |
+| Student | Name | Phase 1 Role | Phase 2 Role |
 |---|---|---|---|
-| Student 1 | Danah Alshehri | Home Page and Navigation | Server Setup & Integration (Node.js/Express setup, server routes and configuration, connecting the website to the server, shared EJS layouts and navigation) |
-| Student 2 | Jawaher Alborethen | User Profile and Add User Form | Plans table & CRUD API |
-| Student 3 | Nadine Kumkumji | Plan Details and Add Plan Form | Feedback table, API & keyword search |
-| Student 4 | Najlaa Alarfaj | Feedback & Support and Plan Search | EJS Plans & Feedback pages, front-end integration |
+| Student 1 | Danah Alshehri | Front-End Design (Home Page & Navigation) | Server Setup & Integration |
+| Student 2 | Jawaher Alborethen | User Management | Database & Plans |
+| Student 3 | Nadine Kumkumji | Plans Management | Feedback Backend |
+| Student 4 | Najlaa Alarfaj | Forms & JavaScript | EJS & Front-End Integration |
 
-All team members contribute to project integration, testing, and keeping the website consistent.
+### Danah Alshehri
 
-## 📅 Project Deadlines
+**Phase 1: Front-End Design**
+- Built the Home Page with the product overview and the Features section.
+- Added the Pricing section with pricing cards.
+- Created the reusable navigation menu used on all pages.
+- Made the Home Page responsive.
+- Coordinated the shared header and footer design.
 
-**Phase 1 Submission:** 31 October 2026  
-**Phase 2 Submission:** 16 November 2026
+**Phase 2: Server Setup & Integration**
+- Set up the Node.js and Express server (`server.js`).
+- Created the server routes and project configuration (`routes/pages.js`, `.env.example`, `package.json`).
+- Connected the existing website to the server, with static files served from `public/`.
+- Set up the shared EJS layouts and navigation (`views/partials/head.ejs`, `nav.ejs`, `footer.ejs`).
+
+**Files:** `server.js`, `routes/pages.js`, `views/index.ejs`, `views/partials/`, `views/404.ejs`, `views/error.ejs`, `public/css/style.css`
+
+### Jawaher Alborethen
+
+**Phase 1: User Management**
+- Built the Profile Page that simulates a logged-in user's dashboard.
+- Created the Add New User form with at least four different data types and HTML5 validation.
+- Designed the profile information and dashboard sections.
+- Made the layouts responsive.
+
+**Phase 2: Database & Plans**
+- Created the MySQL Plans table (`sql/schema.sql`).
+- Implemented Create, Read, Update and Delete for plans (`routes/plans.js`).
+- Connected and tested the Plans API (`tests/api.test.js`).
+
+**Files:** `routes/plans.js`, `routes/profiles.js`, `sql/schema.sql`, `views/profile/`, `public/js/add-user.js`, `public/js/login.js`, `tests/api.test.js`
+
+### Nadine Kumkumji
+
+**Phase 1: Plans Management**
+- Built the Plan Details page showing the details of each plan.
+- Created the Add New Plan form with at least four different data types and HTML5 validation.
+- Styled the plan details and the form.
+- Made the pages responsive.
+
+**Phase 2: Feedback Backend**
+- Created the MySQL Feedback table.
+- Implemented Create, Read and Delete for feedback (`routes/feedback.js`).
+- Implemented keyword search using GET (`/api/feedback?keyword=`).
+- Tested the Feedback API (`tests/feedback-smoke.js`).
+
+**Files:** `routes/feedback.js`, `tests/feedback-smoke.js`, `public/css/plans.css`
+
+### Najlaa Alarfaj
+
+**Phase 1: Forms & JavaScript**
+- Built the Feedback/Support page with Name, Email, Subject and Message fields.
+- Implemented the contact form with HTML5 validation.
+- Created the search form that queries dummy data stored in a JavaScript file.
+- Displayed the search results in a styled HTML table.
+- Made the page responsive.
+
+**Phase 2: EJS & Front-End Integration**
+- Converted the Plans and Feedback pages into EJS.
+- Displayed dynamic data from MySQL on the pages.
+- Connected the forms to the backend endpoints.
+- Tested the front-end and backend integration.
+
+**Files:** `views/plans/`, `views/support.ejs`, `public/js/plans-api.js`, `public/js/feedback-api.js`, `public/js/search.js`, `public/css/support.css`
+
+All team members contributed to integration, testing, and keeping the website consistent.
 
 ## 🔗 Repository
 
