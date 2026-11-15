@@ -196,7 +196,7 @@ All team members contribute to project integration, testing, and keeping the web
 ## 📅 Project Deadlines
 
 **Phase 1 Submission:** 31 October 2026  
-**Phase 2 Submission:** 8 November 2026
+**Phase 2 Submission:** 16 November 2026
 
 ## 🔗 Repository
 
