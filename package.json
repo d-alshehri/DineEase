@@ -7,7 +7,8 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "node tests/api.test.js",
-    "test:feedback": "node tests/feedback-smoke.js"
+    "test:feedback": "node tests/feedback-smoke.js",
+    "test:pages": "node tests/pages.test.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

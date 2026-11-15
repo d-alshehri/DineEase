@@ -133,9 +133,10 @@ Keep the server running (`npm start`), then in a **second terminal** run:
 ```bash
 npm test               # plans + profiles API tests -> "24 passed, 0 failed"
 npm run test:feedback  # feedback API test -> "PASS: Create, Read, keyword Search, Delete"
+npm run test:pages     # every page loads with the nav and shows MySQL data -> "21 passed, 0 failed"
 ```
 
-The tests create their own test data and delete it at the end.
+The API tests create their own test data and delete it at the end. The page test only reads data.
 
 ## 🗺️ Routes
 
