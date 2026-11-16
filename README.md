@@ -3,7 +3,7 @@
 A responsive web-based SaaS application designed to simplify restaurant management through an organized and user-friendly interface.
 
 **Course:** SE371 – Web Application Development  
-**Project:** Semester Project – Phase 1  
+**Project:** Semester Project  
 **Project Title:** Full-Stack SaaS Web Application Development  
 **Development Phase:** Front-End Development  
 **Year:** 2026
@@ -14,7 +14,7 @@ A responsive web-based SaaS application designed to simplify restaurant manageme
 
 DineEase is a web-based restaurant management application designed to provide users with an accessible and organized platform for exploring subscription plans, managing user profiles, and accessing support services.
 
-The project is developed as part of the SE371 semester project. Phase 1 focuses on building the front-end using HTML5, CSS3, and JavaScript.
+The project is developed as part of the SE371 semester project. Phase 1 focuses on building the front-end using HTML5, CSS3, and JavaScript. Phase 2 focuses on building the Back-end using JavaScript, Node.js and MySQL
 
 ## 🎯 Project Objectives
 
@@ -82,6 +82,10 @@ DineEase/
 ├── index.html
 ├── support.html
 ├── README.md
+├── server.js
+├── db.js
+├── package.json
+├── .env
 │
 ├── css/
 │   ├── style.css
@@ -92,11 +96,28 @@ DineEase/
 │
 ├── js/
 │   ├── search.js
-│   └── plans.js
+│   ├── plans.js
+│   ├── add-user.js
+│   ├── login.js
+│   └── profile.js
 │
 ├── plans/
 │   ├── add-plan.html
-│   └── plan-details.html
+│   ├── plan-details.html
+│   └── README.txt
+│
+├── routes/
+│   ├── feedback.js
+│   ├── plans.js
+│   └── profiles.js
+│
+├── sql/
+│   ├── feedback.sql
+│   └── schema.sql
+│
+├── tests/
+│   ├── api.test.js
+│   └── feedback-smoke.js
 │
 └── user-profile/
     ├── login.html
@@ -118,18 +139,12 @@ DineEase/
    cd DineEase
    ```
 
-3. Open `index.html` in your web browser.
+3. Open  Integrated Terminal type  `npm install` to reinstall node moduels.
+4. type  `npm start` or `npm server.js`  to start server.
+5. Open your browser and vist the provided path.
 
-4. Navigate through the website using the navigation menu.
-
-**Recommended:** Use Visual Studio Code with the Live Server extension for local development.
-
-## 👥 Team Members & Contributions
-
-The DineEase project is developed collaboratively by the following four students:
-
-| Student | Name | Responsibilities |
-|---|---|---|
+6. Navigate through the website using the navigation menu.
+   
 | GET | `/` | Home page |
 | GET | `/plans` | All plans |
 | GET | `/plans/:id` | One plan |
@@ -164,12 +179,16 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 | POST | `/api/feedback` | Send feedback |
 | DELETE | `/api/feedback/:id` | Delete feedback |
 
+## 👥 Team Members & Contributions
+
+The DineEase project is developed collaboratively by the following four students:
+
 ## Team
 
 | Student | Name | Phase 1 Role | Phase 2 Role |
 |---|---|---|---|
 | Student 1 | Danah Alshehri | Front-End Design (Home Page & Navigation) | Server Setup & Integration |
-| Student 2 | Jawaher Alborethen | User Management | User & Plans Database |
+| Student 2 | Jawaher Alborethen | User Management | User/Plans Database & JavaScript |
 | Student 3 | Nadine Kumkumji | Plans Management | Feedback Backend |
 | Student 4 | Najlaa Alarfaj | Forms & JavaScript | EJS & Front-End Integration |
 
@@ -201,11 +220,11 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 - Made the layouts responsive.
 
 **Phase 2: Database & Plans**
-- Created the MySQL Plans table (`sql/schema.sql`).
+- Created the MySQL User & Plans table (`sql/schema.sql`).
 - Implemented Create, Read, Update and Delete for plans (`routes/plans.js`).
 - Connected and tested the Plans API (`tests/api.test.js`).
 
-**Files:** `routes/plans.js`, `routes/profiles.js`, `sql/schema.sql`, `views/profile/`, `public/js/add-user.js`, `public/js/login.js`, `tests/api.test.js`
+**Files:** `/user-profile/login.html`, `/user-profile/add-user.html`, `/user-profile/Profile.html` , `db.js`, `routes/plans.js`, `routes/profiles.js`, `sql/schema.sql`, `views/profile/`, `public/js/add-user.js`, `public/js/login.js`, `tests/api.test.js` `public/js/profiles.js`, 
 
 ### Nadine Kumkumji
 
@@ -240,7 +259,7 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 
 **Files:** `views/plans/`, `views/support.ejs`, `public/js/plans-api.js`, `public/js/feedback-api.js`, `public/js/search.js`, `public/css/support.css`
 
-Danah integrated everyone's work and tested the full project on her device, where the app runs.
+Danah and Jawaher integrated everyone's work and tested the full project on their devices, where the app runs.
 
 ## Deadlines
 
