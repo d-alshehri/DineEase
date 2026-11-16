@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+<body>
+
+    <%- include("../partials/nav.ejs") %>
+
+    <%# user: from user_profiles + plans (GET /profile in routes/pages.js) %>
+    <main class="container">
+        <section class="page-intro" aria-labelledby="page-title">
+            <p class="eyebrow">MY ACCOUNT</p>
+            <h1 id="page-title">Welcome back, <%= user.full_name %>.</h1>
+            <p class="lead">Manage your restaurant details, plan and recent activity.</p>
+        </section>
+
+        <section class="section" aria-labelledby="overview-title">
+            <div class="section-heading">
+                <h2 id="overview-title">Overview</h2>
+                <a class="button button-secondary" href="/login">Log Out</a>
+            </div>
+
+            <div class="card-grid">
+                <article class="card">
+                    <h3>Account details</h3>
+                    <p><strong>Email:</strong> <%= user.email %></p>
+                    <p><strong>Phone:</strong> <%= user.phone %></p>
+                    <p><strong>Restaurant:</strong> <%= user.restaurant_name || 'Not added yet' %></p>
+                </article>
+
+                <article class="card featured">
+                    <h3>Current plan</h3>
+                    <% if (user.plan_name) { %>
+                        <p class="price"><%= user.plan_name %></p>
+                        <p>SAR <%= Number(user.plan_price) %> / <%= user.plan_duration === 'Yearly' ? 'year' : 'month' %></p>
+                    <% } else { %>
+                        <p>No plan selected yet</p>
+                    <% } %>
+                    <div class="card-footer">
+                        <%# no plan: link to all plans instead %>
+                        <a href="<%= user.plan_id ? '/plans/' + user.plan_id : '/plans' %>">View plan details</a>
+                    </div>
+                </article>
+
+                <%# Sample data: "This month" and the reservations table are not in the database yet %>
+                <article class="card">
+                    <h3>This month</h3>
+                    <p><strong>42</strong> reservations</p>
+                    <p><strong>128</strong> menu items</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="reservations-title">
+            <div class="section-heading">
+                <h2 id="reservations-title">Recent reservations</h2>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Guest</th>
+                            <th>Date</th>
+                            <th>Guests</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sara Khalid</td>
+                            <td>27 Oct 2026</td>
+                            <td>4</td>
+                            <td>Confirmed</td>
+                        </tr>
+                        <tr>
+                            <td>Omar Hassan</td>
+                            <td>28 Oct 2026</td>
+                            <td>2</td>
+                            <td>Confirmed</td>
+                        </tr>
+                        <tr>
+                            <td>Lina Yousef</td>
+                            <td>29 Oct 2026</td>
+                            <td>6</td>
+                            <td>Pending</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <%- include("../partials/footer.ejs") %>
+</body>
+
+</html>

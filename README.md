@@ -1,150 +1,137 @@
-# 🍽️ DineEase – Restaurant Management SaaS
+# DineEase – Restaurant Management SaaS
 
-A responsive web-based SaaS application designed to simplify restaurant management through an organized and user-friendly interface.
+DineEase is a web app for restaurants and cafes. They can show their menu and prices, offer subscription plans, and let customers reserve tables.
 
 **Course:** SE371 – Web Application Development  
-**Project:** Semester Project  
-**Project Title:** Full-Stack SaaS Web Application Development  
-**Development Phase:** Front-End Development  
+**Project:** Semester Project – Phase 2 (Full-Stack SaaS Web Application)  
 **Year:** 2026
 
----
+## About the project
 
-## 📌 Project Overview
+In Phase 1 we built the front-end with HTML, CSS and JavaScript.
+In Phase 2 we turned it into a full-stack app:
 
-DineEase is a web-based restaurant management application designed to provide users with an accessible and organized platform for exploring subscription plans, managing user profiles, and accessing support services.
+- A Node.js + Express server serves all the pages and the static files.
+- The data is stored in a MySQL database (plans, user profiles and feedback).
+- The pages use EJS templates with a shared head, navigation bar and footer.
+- The API routes under `/api` return JSON and are used by the forms on the pages.
 
-The project is developed as part of the SE371 semester project. Phase 1 focuses on building the front-end using HTML5, CSS3, and JavaScript. Phase 2 focuses on building the Back-end using JavaScript, Node.js and MySQL
+## Features
 
-## 🎯 Project Objectives
+- **Home page:** features section and pricing plans (loaded from the database).
+- **Plans:** `/plans` lists all plans, and each plan has its own page at `/plans/:id`. "View Plan" on the home page opens it.
+- **Manage Plans:** `/plans/manage` is where plans are added, edited and deleted. Delete asks for confirmation first.
+- **Sign up, log in and profile:** passwords are hashed with bcrypt. The profile page shows the user's details and plan from the database. The "This month" card and the reservations table are still sample data.
+- **Feedback & Support:** send feedback, see the recent feedback, search it by keyword and delete it.
+- **Plan search:** searches the plans in the database.
+- **Phase 1 sample search:** searches dummy data stored in `public/js/search.js` and shows the results in a table.
+- **404 page** for unknown pages, and a JSON 404 for unknown API URLs.
+- The old Phase 1 URLs (like `/index.html`) redirect to the new pages.
 
-- Develop a responsive and user-friendly website.
-- Apply HTML5 semantic elements.
-- Use CSS Flexbox and Grid for page layouts.
-- Implement HTML5 form validation.
-- Create interactive features using JavaScript.
-- Maintain consistent styling and navigation across all pages.
-- Ensure compatibility with mobile, tablet, and desktop screens.
+## Technologies
 
-## ✨ Features
-
-### 1. Home Page
-- Introduction to DineEase.
-- Overview of application features.
-- Display of subscription pricing plans.
-- Navigation to other website sections.
-
-### 2. Plans Management
-- View subscription plan details.
-- Add new plans through a form.
-- Display plan information.
-- Store plan data using browser local storage.
-
-### 3. User Profile
-- User login interface.
-- User registration form.
-- Profile dashboard.
-- Display of user information.
-
-### 4. Feedback & Support
-- Contact and feedback form.
-- Fields for Name, Email, Subject, and Message.
-- HTML5 form validation.
-- Feedback submission confirmation.
-
-### 5. Plan Search
-- Search for available subscription plans.
-- Retrieve dummy plan data from a JavaScript file.
-- Display matching results in a styled HTML table.
-- Display a message when no results are found.
-
-### 6. Responsive Design
-- Responsive navigation.
-- Flexible page layouts.
-- CSS Flexbox and Grid.
-- Media queries for different screen sizes.
-
-## 🛠️ Technologies Used
-
-| Technology | Purpose |
+| Technology | Used for |
 |---|---|
-| HTML5 | Website structure and forms |
-| CSS3 | Styling and responsive layouts |
-| JavaScript | Search functionality and interactivity |
-| Local Storage | Browser-based data storage |
-| Git & GitHub | Version control and collaboration |
+| HTML5 / CSS3 | Page structure, forms, responsive layout |
+| JavaScript | Form handling and `fetch()` calls to the API |
+| Node.js + Express 4 | Server, page routes and API routes |
+| EJS 3 | Page templates and shared partials |
+| MySQL + mysql2 | Database and database driver |
+| bcryptjs | Password hashing |
+| dotenv | Reads the database settings from `.env` |
+| Git & GitHub | Version control |
 
-## 📁 Project Structure
+## Project structure
 
 ```text
 DineEase/
-│
-├── index.html
-├── support.html
-├── README.md
-├── server.js
-├── db.js
+├── server.js             # Express app: middleware, routes, 404 and error handler
+├── db.js                 # MySQL connection pool
 ├── package.json
-├── .env
-│
-├── css/
-│   ├── style.css
-│   ├── support.css
-│   ├── plans.css
-│   ├── Userprofile.css
-│   └── user.css
-│
-├── js/
-│   ├── search.js
-│   ├── plans.js
-│   ├── add-user.js
-│   ├── login.js
-│   └── profile.js
-│
-├── plans/
-│   ├── add-plan.html
-│   ├── plan-details.html
-│   └── README.txt
-│
+├── .env.example          # copy to .env and add your MySQL password
 ├── routes/
-│   ├── feedback.js
-│   ├── plans.js
-│   └── profiles.js
-│
+│   ├── pages.js          # page routes (render the EJS views)
+│   ├── plans.js          # /api/plans
+│   ├── profiles.js       # /api/profiles
+│   └── feedback.js       # /api/feedback
+├── views/
+│   ├── partials/         # head.ejs, nav.ejs, footer.ejs
+│   ├── index.ejs         # home page
+│   ├── support.ejs       # feedback & support
+│   ├── 404.ejs
+│   ├── error.ejs
+│   ├── plans/
+│   │   ├── plan-details.ejs   # /plans and /plans/manage
+│   │   ├── plan.ejs           # /plans/:id
+│   │   └── add-plan.ejs       # add and edit plan form
+│   └── profile/          # login.ejs, add-user.ejs, profile.ejs
+├── public/
+│   ├── css/              # style.css (all pages), plans.css, support.css
+│   └── js/               # plans-api.js, feedback-api.js, delete-buttons.js,
+│                         # search.js, add-user.js, login.js
 ├── sql/
-│   ├── feedback.sql
-│   └── schema.sql
-│
-├── tests/
-│   ├── api.test.js
-│   └── feedback-smoke.js
-│
-└── user-profile/
-    ├── login.html
-    ├── Profile.html
-    └── add-user.html
+│   ├── schema.sql        # creates the database, plans and user_profiles, and 3 sample plans
+│   └── feedback.sql      # creates the Feedback table
+└── tests/
+    ├── api.test.js       # plans and profiles API
+    ├── feedback-smoke.js # feedback API
+    └── pages.test.js     # page routes
 ```
 
-## 🚀 How to Run the Project
+## How to run it
 
-1. Clone or download the repository:
+You need Node.js 18 or newer and MySQL (we used MySQL Workbench).
+
+1. Clone the repo and install the packages:
 
    ```bash
    git clone https://github.com/d-alshehri/DineEase.git
+   cd DineEase
+   npm install
    ```
 
-2. Open the project folder:
+2. In MySQL Workbench, run `sql/schema.sql` first, then `sql/feedback.sql`.
+   `schema.sql` creates the `dineease` database, the `plans` and `user_profiles` tables, and 3 sample plans (Starter, Growth, Premium). `feedback.sql` creates the `Feedback` table.
+
+3. Copy `.env.example` to a new file called `.env` and put your own MySQL password in `DB_PASSWORD`. `.env` is in `.gitignore`, so it won't be committed.
+
+   ```text
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=your_mysql_password
+   DB_NAME=dineease
+   PORT=3000
+   ```
+
+4. Start the server:
 
    ```bash
-   cd DineEase
+   npm start
    ```
 
-3. Open  Integrated Terminal type  `npm install` to reinstall node moduels.
-4. type  `npm start` or `npm server.js`  to start server.
-5. Open your browser and vist the provided path.
+   You should see `DineEase running at http://localhost:3000` and `Successfully connected to database server...`.
+   `npm run dev` also works. It restarts the server when you save a file.
 
-6. Navigate through the website using the navigation menu.
-   
+5. Open http://localhost:3000 in your browser.
+
+## Tests
+
+Start the server first (`npm start`), then run the tests in a second terminal:
+
+```bash
+npm test               # plans + profiles API: 24 passed, 0 failed
+npm run test:feedback  # feedback API: PASS: Create, Read, keyword Search, Delete
+npm run test:pages     # all pages load with the nav and show the database data: 21 passed, 0 failed
+```
+
+The API tests add their own test data and delete it at the end. The page test only reads data.
+
+## Routes
+
+### Page routes (`routes/pages.js`)
+
+| Method | URL | Page |
+|---|---|---|
 | GET | `/` | Home page |
 | GET | `/plans` | All plans |
 | GET | `/plans/:id` | One plan |
@@ -179,16 +166,12 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 | POST | `/api/feedback` | Send feedback |
 | DELETE | `/api/feedback/:id` | Delete feedback |
 
-## 👥 Team Members & Contributions
-
-The DineEase project is developed collaboratively by the following four students:
-
 ## Team
 
 | Student | Name | Phase 1 Role | Phase 2 Role |
 |---|---|---|---|
 | Student 1 | Danah Alshehri | Front-End Design (Home Page & Navigation) | Server Setup & Integration |
-| Student 2 | Jawaher Alborethen | User Management | User/Plans Database & JavaScript |
+| Student 2 | Jawaher Alborethen | User Management | Database & Plans |
 | Student 3 | Nadine Kumkumji | Plans Management | Feedback Backend |
 | Student 4 | Najlaa Alarfaj | Forms & JavaScript | EJS & Front-End Integration |
 
@@ -219,12 +202,12 @@ The DineEase project is developed collaboratively by the following four students
 - Designed the profile information and dashboard sections.
 - Made the layouts responsive.
 
-**Phase 2: Database & Plans**
-- Created the MySQL User & Plans table (`sql/schema.sql`).
+**Phase 2: User & Plans Database**
+- Created the MySQL Plans table (`sql/schema.sql`).
 - Implemented Create, Read, Update and Delete for plans (`routes/plans.js`).
 - Connected and tested the Plans API (`tests/api.test.js`).
 
-**Files:** `/user-profile/login.html`, `/user-profile/add-user.html`, `/user-profile/Profile.html` , `db.js`, `routes/plans.js`, `routes/profiles.js`, `sql/schema.sql`, `views/profile/`, `public/js/add-user.js`, `public/js/login.js`, `tests/api.test.js` `public/js/profiles.js`, 
+**Files:** `routes/plans.js`, `routes/profiles.js`, `sql/schema.sql`, `views/profile/`, `public/js/add-user.js`, `public/js/login.js`, `tests/api.test.js`
 
 ### Nadine Kumkumji
 
@@ -259,7 +242,7 @@ The DineEase project is developed collaboratively by the following four students
 
 **Files:** `views/plans/`, `views/support.ejs`, `public/js/plans-api.js`, `public/js/feedback-api.js`, `public/js/search.js`, `public/css/support.css`
 
-Danah and Jawaher integrated everyone's work and tested the full project on their devices, where the app runs.
+Danah integrated everyone's work and tested the full project on her device, where the app runs.
 
 ## Deadlines
 
