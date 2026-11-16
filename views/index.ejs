@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+
+    <%- include("./partials/nav.ejs") %>
+
+    <main class="container">
+
+        <section class="page-intro" aria-labelledby="page-title">
+            <p class="eyebrow">RESTAURANT AND CAFE MANAGEMENT</p>
+            <h1 id="page-title">Great Food. Easy Reservations.</h1>
+            <p class="lead">
+                DineEase helps restaurants and cafes display their menus,
+                share prices, and allow customers to reserve tables in advance.
+            </p>
+            <div class="intro-actions">
+                <a class="button button-primary" href="#features">Explore Features</a>
+                <a class="button button-secondary" href="#pricing">View Pricing</a>
+            </div>
+        </section>
+
+        <section class="section" id="features" aria-labelledby="features-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="features-title">Our Features</h2>
+                    <p class="muted">Everything you need to make your restaurant easier to manage.</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+
+                <article class="card">
+                    <h3>Digital Menu</h3>
+                    <p>
+                        Display your food and drinks with descriptions
+                        and prices in one convenient place.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Table Reservations</h3>
+                    <p>
+                        Allow customers to reserve tables in advance
+                        and plan their visits more easily.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Easy Menu Updates</h3>
+                    <p>
+                        Make it easier for restaurant owners to keep
+                        menu items and prices updated.
+                    </p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="section" id="pricing" aria-labelledby="pricing-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="pricing-title">Our Pricing Plans</h2>
+                    <p class="muted">Choose a plan that suits your restaurant or cafe.</p>
+                </div>
+                <a class="button button-secondary" href="/plans">See all plans</a>
+            </div>
+
+            <%# plans: from the plans table (GET / in routes/pages.js) %>
+            <% if (plans.length === 0) { %>
+                <p class="empty-state">There are no plans to display right now.</p>
+            <% } else { %>
+                <div class="card-grid">
+
+                    <% plans.forEach((plan) => { %>
+                        <article class="card <%= plan.category === 'Premium' ? 'featured' : '' %>">
+                            <span class="tag"><%= plan.category %></span>
+                            <h3><%= plan.name %></h3>
+                            <%# price comes from MySQL as text like "49.00" %>
+                            <p class="price">
+                                SAR <%= Number(plan.price) %> <small>/ <%= plan.duration === 'Yearly' ? 'year' : 'month' %></small>
+                            </p>
+                            <p class="muted"><%= plan.description %></p>
+                            <ul class="card-features">
+                                <li>Up to <%= plan.menu_limit %> menu items</li>
+                                <li><%= plan.reservations ? 'Table reservations included' : 'Table reservations not included' %></li>
+                            </ul>
+                            <div class="card-footer">
+                                <a href="/plans/<%= plan.id %>" class="button button-primary">View Plan</a>
+                            </div>
+                        </article>
+                    <% }) %>
+
+                </div>
+            <% } %>
+        </section>
+
+    </main>
+
+    <%- include("./partials/footer.ejs") %>
+
+</body>
+</html>

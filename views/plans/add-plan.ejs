@@ -1,0 +1,83 @@
+<%# Used by /plans/add (mode 'create') and /plans/:id/edit (mode 'edit').
+    plan = the plan to fill in (empty values when creating) %>
+<% const isEdit = mode === 'edit'; %>
+<% const selectedIf = (value, option) => (value === option ? 'selected' : ''); %>
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+<body>
+  <%- include("../partials/nav.ejs") %>
+
+  <main class="container narrow">
+    <section class="page-intro" aria-labelledby="page-title">
+      <p class="eyebrow">PLAN MANAGEMENT</p>
+      <h1 id="page-title"><%= isEdit ? 'Edit plan.' : 'Create a new plan.' %></h1>
+      <p class="lead">
+        <%= isEdit
+          ? 'Change the details of this subscription package and save your changes.'
+          : 'Set up a subscription package for restaurants and cafés using DineEase.' %>
+      </p>
+    </section>
+
+    <section class="form-card" aria-labelledby="form-title">
+      <h2 id="form-title">Plan information</h2>
+      <p class="muted">Fields marked * are required.</p>
+      <%# plans-api.js uses these to send POST or PUT %>
+      <form id="add-plan-form" data-mode="<%= mode %>" data-plan-id="<%= plan.id || '' %>">
+        <div class="form-grid">
+          <div class="field">
+            <label for="plan-name">Plan name *</label>
+            <input id="plan-name" name="name" type="text" minlength="3" maxlength="50" placeholder="e.g. Restaurant Pro" value="<%= plan.name %>" required>
+          </div>
+          <div class="field">
+            <label for="plan-price">Price per billing cycle (SAR) *</label>
+            <input id="plan-price" name="price" type="number" min="0" max="100000" step="0.01" placeholder="e.g. 99" value="<%= plan.price %>" required>
+          </div>
+          <div class="field">
+            <label for="plan-category">Plan category *</label>
+            <select id="plan-category" name="category" required>
+              <option value="" disabled <%= isEdit ? '' : 'selected' %>>Select a category</option>
+              <option value="Starter" <%= selectedIf(plan.category, 'Starter') %>>Starter</option>
+              <option value="Growth" <%= selectedIf(plan.category, 'Growth') %>>Growth</option>
+              <option value="Premium" <%= selectedIf(plan.category, 'Premium') %>>Premium</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="plan-start">Available from *</label>
+            <%# date inputs need YYYY-MM-DD, which is what MySQL sends (dateStrings in db.js) %>
+            <input id="plan-start" name="startDate" type="date" value="<%= plan.start_date %>" required>
+          </div>
+          <div class="field">
+            <label for="plan-duration">Billing cycle *</label>
+            <select id="plan-duration" name="duration" required>
+              <option value="" disabled <%= isEdit ? '' : 'selected' %>>Select a cycle</option>
+              <option value="Monthly" <%= selectedIf(plan.duration, 'Monthly') %>>Monthly</option>
+              <option value="Yearly" <%= selectedIf(plan.duration, 'Yearly') %>>Yearly</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="plan-limit">Menu item limit *</label>
+            <input id="plan-limit" name="menuLimit" type="number" min="1" max="100000" step="1" placeholder="e.g. 100" value="<%= plan.menu_limit %>" required>
+          </div>
+          <div class="field full">
+            <label for="plan-description">Plan description *</label>
+            <textarea id="plan-description" name="description" rows="4" minlength="10" maxlength="300" placeholder="Describe what this plan includes..." required><%= plan.description %></textarea>
+          </div>
+          <div class="field full">
+            <label class="checkbox-label"><input id="plan-reservations" name="reservations" type="checkbox" <%= plan.reservations ? 'checked' : '' %>> Include online table reservations</label>
+          </div>
+        </div>
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+        <div class="form-actions">
+          <a class="button button-secondary" href="/plans/manage">Cancel</a>
+          <button type="submit" class="button button-primary"><%= isEdit ? 'Save Changes' : 'Save Plan' %></button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <%- include("../partials/footer.ejs") %>
+
+  <script src="/js/plans-api.js"></script>
+</body>
+</html>
