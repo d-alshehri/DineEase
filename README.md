@@ -242,7 +242,7 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 
 **Files:** `views/plans/`, `views/support.ejs`, `public/js/plans-api.js`, `public/js/feedback-api.js`, `public/js/search.js`, `public/css/support.css`
 
-Danah integrated everyone's work and tested the full project on her device, where the app runs.
+Danah  and  jawaher integrated everyone's work and tested the full project on her device, where the app runs.
 
 ## Deadlines
 

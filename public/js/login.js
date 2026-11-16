@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         msg.textContent = 'Logged in! Redirecting...';
         window.location.assign('/profile?id=' + data.id);
       } else {
-        // 401 = wrong email or password
+        
         msg.className = 'form-message error';
         msg.textContent = data.error || 'Login failed';
       }
