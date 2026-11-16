@@ -1,0 +1,265 @@
+/* =========================
+   DineEase Support Page
+   ========================= */
+
+:root {
+    --primary-color: #153c32;
+    --secondary-color: #d9bb80;
+    --background-color: #faf9f5;
+    --text-color: #292d2a;
+    --white: #ffffff;
+    --border-color: #dddddd;
+    --font-size: 16px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: var(--font-size);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* =========================
+   Navigation Bar
+   ========================= */
+
+.navbar {
+    background-color: var(--white);
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    color: var(--primary-color);
+    font-size: 26px;
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary-color);
+}
+
+/* =========================
+   Main Sections
+   ========================= */
+
+.support-section,
+.search-section {
+    background-color: var(--white);
+    max-width: 750px;
+    margin: 35px auto;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.support-section h2,
+.search-section h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+
+.section-description {
+    color: #666666;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   Forms
+   ========================= */
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+label {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+input,
+textarea {
+    padding: 13px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+    width: 100%;
+    background-color: var(--white);
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(21, 60, 50, 0.12);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* =========================
+   Buttons
+   ========================= */
+
+button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 13px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #245c4c;
+}
+
+/* =========================
+   Search Results Table
+   ========================= */
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 25px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 350px;
+}
+
+th,
+td {
+    padding: 14px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+td {
+    background-color: var(--white);
+}
+
+/* =========================
+   Footer
+   ========================= */
+
+footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 22px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 6px 0;
+}
+
+footer a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .support-section,
+    .search-section {
+        margin: 25px 15px;
+        padding: 25px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .logo {
+        font-size: 23px;
+    }
+
+    .nav-links {
+        gap: 12px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .support-section,
+    .search-section {
+        padding: 20px;
+    }
+
+    .support-section h2,
+    .search-section h2 {
+        font-size: 22px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+}

@@ -8,7 +8,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME || 'dineease',
   waitForConnections: true,
   connectionLimit: 10,
-  dateStrings: true            // dates come back as text like "2026-01-01", not Date objects
+  dateStrings: true            
 });
 
 module.exports = pool;

@@ -1,0 +1,213 @@
+
+/* General styles */
+
+:root {
+    --primary-color: #153c32;
+    --secondary-color: #d9bb80;
+    --background-color: #faf9f5;
+    --text-color: #292d2a;
+    --white-color: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Navigation */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 6%;
+    background-color: var(--white-color);
+}
+
+.logo {
+    color: var(--primary-color);
+    font-size: 28px;
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links a {
+    color: var(--text-color);
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* Home section */
+
+.hero {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    text-align: center;
+    padding: 85px 10%;
+}
+
+.subtitle {
+    color: var(--secondary-color);
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.hero h2 {
+    font-size: 42px;
+    margin: 15px 0;
+}
+
+.hero p {
+    max-width: 650px;
+    margin: 15px auto 25px;
+}
+
+.button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+}
+
+.button:hover {
+    opacity: 0.85;
+}
+
+.hero .button {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border-color: var(--secondary-color);
+}
+
+.hero .button-light {
+    background-color: transparent;
+    color: var(--white-color);
+    border-color: var(--white-color);
+}
+
+/* Features and pricing */
+
+.features,
+.pricing {
+    padding: 60px 7%;
+    text-align: center;
+}
+
+.features h2,
+.pricing h2 {
+    font-size: 32px;
+    color: var(--primary-color);
+}
+
+.section-intro {
+    margin-bottom: 30px;
+}
+
+.feature-list,
+.pricing-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    text-align: left;
+}
+
+.feature-card,
+.price-card {
+    background-color: var(--white-color);
+    padding: 25px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+.feature-card h3,
+.price-card h3 {
+    color: var(--primary-color);
+}
+
+.pricing {
+    background-color: #f0f0e8;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.price-card ul {
+    padding-left: 20px;
+}
+
+.price-note {
+    font-size: 14px;
+}
+
+/* Footer */
+
+footer {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    text-align: center;
+    padding: 30px 15px;
+}
+
+footer a {
+    color: var(--secondary-color);
+}
+
+/* Responsive design */
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .hero {
+        padding: 55px 6%;
+    }
+
+    .hero h2 {
+        font-size: 32px;
+    }
+
+    .feature-list,
+    .pricing-list {
+        grid-template-columns: 1fr;
+    }
+}

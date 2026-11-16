@@ -1,0 +1,88 @@
+.page-header {
+    padding: 40px 6% 10px;
+}
+
+.page-header h2 {
+    margin: 5px 0;
+    font-size: 32px;
+    color: var(--primary-color);
+}
+
+.page-header p {
+    margin: 5px 0;
+}
+
+.dashboard {
+    padding: 10px 6% 50px;
+}
+
+.dashboard h2 {
+    color: var(--primary-color);
+}
+
+.dashboard h3 {
+    color: var(--primary-color);
+    margin: 30px 0 12px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.dash-card {
+    background-color: var(--white-color);
+    padding: 20px 25px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+.dash-card h3 {
+    margin-top: 0;
+}
+
+.dash-card p {
+    margin: 8px 0;
+}
+
+.dash-card a {
+    color: var(--primary-color);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    background-color: var(--white-color);
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+.table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-wrap th,
+.table-wrap td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.table-wrap th {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+.table-wrap tr:last-child td {
+    border-bottom: none;
+}
+
+
+@media screen and (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

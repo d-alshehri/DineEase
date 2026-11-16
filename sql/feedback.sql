@@ -1,5 +1,4 @@
 -- Execute against the DineEase MySQL database (DB_NAME from .env).
-USE dineease;
 CREATE TABLE IF NOT EXISTS Feedback (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
