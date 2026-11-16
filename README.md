@@ -169,7 +169,7 @@ Any other URL shows the 404 page. The old Phase 1 URLs (`/index.html`, `/support
 | Student | Name | Phase 1 Role | Phase 2 Role |
 |---|---|---|---|
 | Student 1 | Danah Alshehri | Front-End Design (Home Page & Navigation) | Server Setup & Integration |
-| Student 2 | Jawaher Alborethen | User Management | Database & Plans |
+| Student 2 | Jawaher Alborethen | User Management | User & Plans Database |
 | Student 3 | Nadine Kumkumji | Plans Management | Feedback Backend |
 | Student 4 | Najlaa Alarfaj | Forms & JavaScript | EJS & Front-End Integration |
 
