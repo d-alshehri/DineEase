@@ -31,7 +31,7 @@
 
     <h1>Sign up page</h1>
 
-    <form class="user-form" action="Profile.html" method="get">
+  <form id="add-user-form" class="user-form">
 
         <fieldset>
             <legend>Personal details</legend>
@@ -71,6 +71,7 @@
                     <input type="file" id="photo" name="photo" accept="image/*">
                 </div>
             </div>
+            <p id="form-message" role="alert"></p>
             <div class="button-row">
                 <button type="submit" class="button">Add User</button>
                 <button type="reset" class="button button-outline">Reset</button>
@@ -89,6 +90,7 @@
         <a href="../support.html">Contact Support</a>
         <p>&copy; 2026 DineEase. All rights reserved.</p>
     </footer>
+    <script src="../js/add-user.js"></script>
 </body>
 
 </html>

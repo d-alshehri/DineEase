@@ -37,22 +37,21 @@
     </section>
 
     <section class="dashboard">
-        <h2>Welcome back, Ahmed Ali</h2>
+       <h2>Welcome back, <span id="user-name"></span></h2>
 
         <div class="dashboard-grid">
             <article class="dash-card">
                 <h3>Account details</h3>
-                <p><strong>Email:</strong> ahmed@example.com</p>
-                <p><strong>Phone:</strong> 0501234567</p>
+               <p><strong>Email:</strong> <span id="user-email"></span></p>
+                <p><strong>Phone:</strong> <span id="user-phone"></span></p>
                 <p><strong>Restaurant:</strong> Al Noor Cafe</p>
             </article>
 
-            <article class="dash-card">
-                <h3>Current plan</h3>
-                <p><strong>Professional</strong> - SAR 99 / month</p>
-                <p>Renews on 1 November 2026</p>
-                <a href="../plans/plan-details.html">View plan details</a>
-            </article>
+           <article class="dash-card">
+    <h3>Current plan</h3>
+    <p><strong id="plan-name">-</strong> <span id="plan-price"></span></p>
+    <a href="../plans/plan-details.html">Change plan</a>
+</article>
 
             <article class="dash-card">
                 <h3>This month</h3>
@@ -101,4 +100,5 @@
         <a href="../support.html">Contact Support</a>
         <p>&copy; 2026 DineEase. All rights reserved.</p>
     </footer>
+    <script src="../js/profile.js"></script>
 </body>

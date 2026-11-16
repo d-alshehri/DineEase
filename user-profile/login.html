@@ -30,7 +30,7 @@
 
     <h1>Log In</h1>
 
-    <form class="user-form login-form" action="Profile.html" method="get">
+<form id="login-form" class="user-form login-form">
 
         <fieldset>
             <legend>Welcome back</legend>
@@ -43,10 +43,10 @@
 
                 <div class="field full">
                     <label for="password">Password</label>
-                    <input type="password" id="password" minlength="8" title="At least 8 characters" required>
+                    <input type="password" id="password" name="password" minlength="8" title="At least 8 characters" required>
                 </div>
             </div>
-
+        <p id="form-message" role="alert"></p>
             <div class="button-row">
                 <button type="submit" class="button">Log In</button>
             </div>
@@ -62,6 +62,7 @@
         <a href="../support.html">Contact Support</a>
         <p>&copy; 2026 DineEase. All rights reserved.</p>
     </footer>
+    <script src="../js/login.js"></script>
 </body>
 
 </html>
